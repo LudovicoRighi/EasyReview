@@ -1,5 +1,5 @@
 # Databases2Project
 
 Ludovico Righi
-Arlsan Alì
+Arslan Ali
 Enrico Gherardi
