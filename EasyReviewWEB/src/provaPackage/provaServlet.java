@@ -35,7 +35,7 @@ public class provaServlet extends HttpServlet {
     		 response.setContentType("text/plain");
     		 PrintWriter out = response.getWriter();
 				out.println("Hello this is a test");
-				pService.sayHello("ludovico");
+				out.println(pService.sayHello("ludovico"));
 				out.close();
     		}
 
