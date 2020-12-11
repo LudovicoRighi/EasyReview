@@ -35,7 +35,7 @@ public class provaServlet extends HttpServlet {
     		 response.setContentType("text/plain");
     		 PrintWriter out = response.getWriter();
 				out.println("Hello this is a test");
-				out.println(pService.sayHello("ludovicorighi"));  //questo è il punto in cui dal dalla servlet (WEB) sfruttiamo un servizio di EJB
+				out.println(pService.sayHello("Ars"));  //questo ï¿½ il punto in cui dal dalla servlet (WEB) sfruttiamo un servizio di EJB
 				out.close();
     		}
 
