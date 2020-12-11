@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>EasyReview</title>
 </head>
 <body>
-<h1>Welcome to the mission management application</h1>
+<h1>Welcome to the EasyReview application</h1>
 
 	<form action="CheckLogin">
 		Username: <input type="text" name="username" required> <br>
