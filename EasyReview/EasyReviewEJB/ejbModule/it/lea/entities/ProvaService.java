@@ -1,4 +1,4 @@
-package examplePackage;
+package it.lea.entities;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
