@@ -34,4 +34,19 @@ public class UserService {
 
 	}
 
+	public void registerUser(String usrn, String pwd, String email)
+			throws CredentialsException, NonUniqueResultException {
+		
+		try {
+			String query = "insert into usr values(?1, ?2, ?3)";
+			em.createNativeQuery(query).setParameter(1, usrn);
+			em.createNativeQuery(query).setParameter(2, pwd);
+			em.createNativeQuery(query).setParameter(3, email);
+			em.createNativeQuery(query).executeUpdate();
+		} catch (PersistenceException e) {
+			throw new CredentialsException("Could not verify credentals");
+		}
+
+	}
+
 }
