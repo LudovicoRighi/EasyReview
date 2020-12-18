@@ -9,7 +9,7 @@
 </head>
 <body bgcolor="red">
 
-<% String m1 = (String) request.getAttribute("palla");
+<% String m1 = (String) request.getAttribute("user");
    out.println(m1);
 %>
 </body>

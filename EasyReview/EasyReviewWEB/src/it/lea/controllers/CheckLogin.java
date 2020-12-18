@@ -1,17 +1,16 @@
 package it.lea.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.ejb.EJB;
+import javax.persistence.NonUniqueResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import it.lea.services.ProvaService;
+import it.lea.entities.User;
+import it.lea.exceptions.CredentialsException; 
 import it.lea.services.UserService;
 
 @WebServlet("/CheckLogin")
@@ -25,29 +24,48 @@ public class CheckLogin extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		System.out.println("debugging1");
+		// obtain and escape params
+		String usrn = null;
+		String pwd = null;
+		try {
+			usrn = request.getParameter("username");
+			pwd = request.getParameter("password");
+			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
+				throw new Exception("Missing or empty credential value");
+			}
+	
+		} catch (Exception e) {
+			// for debugging only e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			return;
+		}
+		User user;
+		try {
+			// query db to authenticate for user
+			System.out.println("Caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + usrn + pwd);
+			user = usrService.checkCredentials(usrn, pwd);
+			System.out.println("doppppppp" + usrn + pwd);
+		} catch (CredentialsException | NonUniqueResultException e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			return;
+		}
+
+		// If the user exists, add info to the session and go to home page, otherwise
+		// show login page with error message
 		
-		// prova collgamento con EJB (UserService) 
-		System.out.println(usrService.metodoDiProva("Enrico"));
-		// fine prova
-		
-		if (username.equals("Ludovico") && password.equals("ciao")) {
-			System.out.println("okok");
-			request.setAttribute("palla", username);
+		if (user == null) {
+			System.out.println("Messaggio di errore-> username o pass errati");
+		} else {
+			request.setAttribute("user", usrn);
 			RequestDispatcher rd = request.getRequestDispatcher("ShowInfo.jsp");
 			rd.forward(request, response);
 		}
-		response.getWriter().append("Served cia come stai: ").append(request.getContextPath());
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }
