@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
+import it.lea.exceptions.RegistrationException;
 
 @Stateless
 public class UserService {
@@ -34,18 +35,17 @@ public class UserService {
 
 	}
 
-	public void registerUser(String usrn, String pwd, String email)
-			throws CredentialsException, NonUniqueResultException {
-		
+	public User registerUser(String usrn, String pwd, String email)
+			throws RegistrationException {
+
+		User user = new User(usrn, email, pwd);
 		try {
-			String query = "insert into usr values(?1, ?2, ?3)";
-			em.createNativeQuery(query).setParameter(1, usrn);
-			em.createNativeQuery(query).setParameter(2, pwd);
-			em.createNativeQuery(query).setParameter(3, email);
-			em.createNativeQuery(query).executeUpdate();
+			em.persist(user);
+			em.flush();
 		} catch (PersistenceException e) {
-			throw new CredentialsException("Could not verify credentals");
+			throw new RegistrationException("Could not register the user");
 		}
+		return user;
 
 	}
 

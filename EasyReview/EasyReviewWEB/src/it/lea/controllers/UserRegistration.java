@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
+import it.lea.exceptions.RegistrationException;
 import it.lea.services.UserService;
 
 @WebServlet("/UserRegistration")
@@ -51,11 +53,19 @@ public class UserRegistration extends HttpServlet {
 		User user;
 		try {
 			// query db to authenticate for user
-			user = usrService.checkCredentials(usrn, pwd);
-		} catch (CredentialsException | NonUniqueResultException e) {
+			user = usrService.registerUser(usrn, confirmpwd, email);
+		} catch (RegistrationException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
 			return;
+		}
+		
+		if (user == null) {
+			System.out.println("Messaggio di errore-> registrazione fallita");
+		} else {
+			request.setAttribute("user", usrn);
+			RequestDispatcher rd = request.getRequestDispatcher("ShowInfo.jsp");
+			rd.forward(request, response);
 		}
 	}
 
