@@ -58,6 +58,7 @@ public class UserRegistration extends HttpServlet {
 			return;
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		
 		
 		if (user == null) {
@@ -67,6 +68,8 @@ public class UserRegistration extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("ShowInfo.jsp");
 			rd.forward(request, response);
 		}
+=======
+>>>>>>> parent of f17b782... Registration
 =======
 >>>>>>> parent of f17b782... Registration
 	}

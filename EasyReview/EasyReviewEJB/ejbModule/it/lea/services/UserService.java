@@ -38,10 +38,16 @@ public class UserService {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public User registerUser(String usrn, String pwd, String email)
 			throws RegistrationException {
 
 		User user = new User(usrn, email, pwd);
+=======
+	public void registerUser(String usrn, String pwd, String email)
+			throws CredentialsException, NonUniqueResultException {
+		
+>>>>>>> parent of f17b782... Registration
 =======
 	public void registerUser(String usrn, String pwd, String email)
 			throws CredentialsException, NonUniqueResultException {
@@ -57,8 +63,11 @@ public class UserService {
 			throw new CredentialsException("Could not verify credentals");
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		return user;
 		}
+=======
+>>>>>>> parent of f17b782... Registration
 =======
 >>>>>>> parent of f17b782... Registration
 
