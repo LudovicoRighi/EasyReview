@@ -3,7 +3,6 @@ package it.lea.controllers;
 import java.io.IOException;
 
 import javax.ejb.EJB;
-import javax.persistence.NonUniqueResultException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.lea.entities.User;
-import it.lea.exceptions.CredentialsException;
 import it.lea.exceptions.RegistrationException;
 import it.lea.services.UserService;
 
