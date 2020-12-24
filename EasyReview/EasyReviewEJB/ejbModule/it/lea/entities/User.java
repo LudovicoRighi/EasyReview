@@ -21,8 +21,8 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
-	private List<Answer> answers;
+	//@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	//private List<Answer> answers;
 	private String username;
 	private String email;
 	private String password;
