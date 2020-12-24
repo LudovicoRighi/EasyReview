@@ -39,27 +39,32 @@ public class UserRegistration extends HttpServlet {
 		email = request.getParameter("email");
 		confirmpwd = request.getParameter("confirmpass");
 		try {
-			if (usrn == null || pwd == null || confirmpwd == null || email == null || usrn.isEmpty() || pwd.isEmpty()
-					|| confirmpwd.isEmpty() || email.isEmpty()) {
-				if (!pwd.equals(confirmpwd)) {
-					throw new Exception("Missing or empty value");
-				}
+			if (usrn == null || pwd == null || confirmpwd == null || email == null) {
+				throw new RegistrationException("Missing or empty value");
 			}
-		} catch (Exception e) {
-			//response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			if (!pwd.equals(confirmpwd)) {
+				throw new RegistrationException("The two passwords do not match");
+			}
+		} catch (RegistrationException e) {
+			// request.getSession().setAttribute("passwordMatch", "false");
+			// response.sendError(HttpServletResponse.SC_BAD_REQUEST, "The two passwords do not match");
+			request.setAttribute("passwordMatch", "The two passwords do not match");
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			rd.include(request, response);
 			return;
 		}
-		
-		User user;
+
+		User user = null;
 		try {
 			// query db to authenticate for user
 			user = usrService.registerUser(usrn, confirmpwd, email);
 		} catch (RegistrationException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+			request.setAttribute("registrationError", "Email or username already used");
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			rd.include(request, response);
 			return;
 		}
-		
+
 		if (user == null) {
 			System.out.println("Messaggio di errore-> registrazione fallita");
 		} else {
