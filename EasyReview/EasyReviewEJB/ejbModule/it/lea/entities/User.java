@@ -25,8 +25,8 @@ public class User implements Serializable {
 	//@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
 	//private List<Answer> answers;
 
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
-	private List<Answer> answers;
+	//@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	//private List<Answer> answers;
 	private String username;
 	private String email;
 	private String password;
@@ -35,6 +35,24 @@ public class User implements Serializable {
 	private Integer pointOfToday;
 	private Integer totalPoints;
 	private Boolean administrator;
+	
+	
+	public User() {
+	
+	}
+	
+	public User(String username, String email, String password) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.banned=false;
+		this.hasQOT=false;
+		this.pointOfToday=0;
+		this.totalPoints=0;
+		this.administrator=false;
+		
+	}
 	public Integer getId() {
 		return id;
 	}
