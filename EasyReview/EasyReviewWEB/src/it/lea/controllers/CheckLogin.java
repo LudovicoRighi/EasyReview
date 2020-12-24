@@ -27,6 +27,7 @@ public class CheckLogin extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("debugging1");
 		// obtain and escape params
 		String usrn = null;
 		String pwd = null;
@@ -45,7 +46,9 @@ public class CheckLogin extends HttpServlet {
 		User user;
 		try {
 			// query db to authenticate for user
+			System.out.println("Caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + usrn + pwd);
 			user = usrService.checkCredentials(usrn, pwd);
+			System.out.println("doppppppp" + usrn + pwd);
 		} catch (CredentialsException | NonUniqueResultException e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");

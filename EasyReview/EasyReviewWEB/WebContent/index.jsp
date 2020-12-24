@@ -29,7 +29,7 @@ Signup</div>
 <div class="form-inner">
           <form action="CheckLogin" class="login" method="post">
             <div class="field">
-              <input type="text" placeholder="Username" name="username" required>
+              <input type="text" placeholder="Email Address" name="username" required>
             </div>
 <div class="field">
               <input type="password" placeholder="Password" name="password" required>
@@ -44,18 +44,15 @@ Signup</div>
 <div class="signup-link">
 Not a member? <a href="">Signup now</a></div>
 </form>
-<form action="UserRegistration" class="signup" method="post">
-					<div class="field">
-						<input type="text" placeholder="Email Address" name="email" required>
-					</div>
-					<div class="field">
-						<input type="text" placeholder="Username" name="user" required>
-					</div>
-					<div class="field">
-              <input type="password" placeholder="Password" name="pass" required>
+<form action="#" class="signup">
+            <div class="field">
+              <input type="text" placeholder="Email Address" required>
             </div>
 <div class="field">
-              <input type="password" placeholder="Confirm password" name="confirmpass" required>
+              <input type="password" placeholder="Password" required>
+            </div>
+<div class="field">
+              <input type="password" placeholder="Confirm password" required>
             </div>
 <div class="field btn">
               <div class="btn-layer">

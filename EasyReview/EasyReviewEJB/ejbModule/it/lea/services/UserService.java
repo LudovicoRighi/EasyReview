@@ -35,6 +35,7 @@ public class UserService {
 
 	}
 
+<<<<<<< HEAD
 	public User registerUser(String usrn, String pwd, String email)
 			throws RegistrationException {
 
@@ -48,4 +49,6 @@ public class UserService {
 		return user;
 		}
 
+=======
+>>>>>>> parent of 6585db7... changes
 }
