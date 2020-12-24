@@ -7,6 +7,10 @@
 		transaction-type="JTA">
 		<jta-data-source>EasyReviewDB</jta-data-source>
 		<class>it.lea.entities.User</class>
+		<class>it.lea.entities.Answer</class>
+		<class>it.lea.entities.Questionnaire</class>
+		<class>it.lea.entities.Product</class>
+		<class>it.lea.entities.Review</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 		</properties>

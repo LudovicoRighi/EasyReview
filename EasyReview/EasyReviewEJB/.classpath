@@ -21,12 +21,5 @@
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-			<attribute name="owner.project.facets" value="jpt.jpa"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

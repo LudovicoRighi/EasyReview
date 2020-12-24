@@ -19,10 +19,15 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	//@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
 	//private List<Answer> answers;
 =======
 >>>>>>> parent of 4e52911... Entities and Mapping
+=======
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	private List<Answer> answers;
+>>>>>>> parent of 08eafa0... Partito
 	private String username;
 	private String email;
 	private String password;
