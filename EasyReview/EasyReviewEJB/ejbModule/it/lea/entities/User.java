@@ -35,12 +35,9 @@ public class User implements Serializable {
 	private Integer pointOfToday;
 	private Integer totalPoints;
 	private Boolean administrator;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
-	
+	 
 	public User() {
-	
+		
 	}
 	
 	public User(String username, String email, String password) {
@@ -55,10 +52,7 @@ public class User implements Serializable {
 		this.administrator=false;
 		
 	}
-=======
->>>>>>> parent of f17b782... Registration
-=======
->>>>>>> parent of f17b782... Registration
+ 
 	public Integer getId() {
 		return id;
 	}

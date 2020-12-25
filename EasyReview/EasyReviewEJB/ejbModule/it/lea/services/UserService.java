@@ -1,7 +1,6 @@
 package it.lea.services;
 
 import java.util.List;
-import it.lea.exceptions.RegistrationException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -10,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
+import it.lea.exceptions.RegistrationException;
 
 @Stateless
 public class UserService {
@@ -35,44 +35,16 @@ public class UserService {
 
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	public User registerUser(String usrn, String pwd, String email)
-			throws RegistrationException {
+	public User registerUser(String usrn, String pwd, String email) throws RegistrationException {
 
 		User user = new User(usrn, email, pwd);
-=======
-	public void registerUser(String usrn, String pwd, String email)
-			throws CredentialsException, NonUniqueResultException {
-		
->>>>>>> parent of f17b782... Registration
-=======
-	public void registerUser(String usrn, String pwd, String email)
-			throws CredentialsException, NonUniqueResultException {
-		
->>>>>>> parent of f17b782... Registration
 		try {
-			String query = "insert into usr values(?1, ?2, ?3)";
-			em.createNativeQuery(query).setParameter(1, usrn);
-			em.createNativeQuery(query).setParameter(2, pwd);
-			em.createNativeQuery(query).setParameter(3, email);
-			em.createNativeQuery(query).executeUpdate();
+			em.persist(user);
+			em.flush();
 		} catch (PersistenceException e) {
-			throw new CredentialsException("Could not verify credentals");
+			throw new RegistrationException("Could not register the user");
 		}
-<<<<<<< HEAD
-<<<<<<< HEAD
 		return user;
-		}
-=======
->>>>>>> parent of f17b782... Registration
-=======
->>>>>>> parent of f17b782... Registration
+	}
 
-=======
->>>>>>> parent of 6585db7... changes
-=======
->>>>>>> parent of 6585db7... changes
 }
