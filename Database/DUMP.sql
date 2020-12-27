@@ -1,6 +1,5 @@
 use db_easyr;
 select * from usr;
-delete from usr where id=8
 
 create table usr(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
