@@ -1,6 +1,8 @@
 package it.lea.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -10,9 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.lea.entities.Answer;
+import it.lea.entities.Product;
+import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
 import it.lea.exceptions.RegistrationException;
 import it.lea.services.UserService;
+import java.sql.Date;
+//import java.util.Date;
+
 
 @WebServlet("/UserRegistration")
 public class UserRegistration extends HttpServlet {
@@ -21,13 +29,21 @@ public class UserRegistration extends HttpServlet {
 	private UserService usrService;
 
 	public UserRegistration() {
-		super();
-		// TODO Auto-generated constructor stub
+		super(); 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
+		
+		/* *******************************************************************************************************************
+		//Date sqlDate = new Date(java.util.Date().getTime());
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		Product pro = new Product("hh...s.s", "playstation9");
+		Questionnaire qpr= new Questionnaire(sqlDate, pro, 2, "prova?", "ciao?", "pp?", "bbb", "bb", null, null , null, null , null );
+		 ************************************************************************************************************************** */
+		
 		String usrn = null;
 		String pwd = null;
 		String confirmpwd = null;
@@ -57,6 +73,7 @@ public class UserRegistration extends HttpServlet {
 		try {
 			// query db to authenticate for user
 			user = usrService.registerUser(usrn, confirmpwd, email);
+			
 		} catch (RegistrationException e) {
 			request.setAttribute("registrationError", "Email or username already used");
 			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");

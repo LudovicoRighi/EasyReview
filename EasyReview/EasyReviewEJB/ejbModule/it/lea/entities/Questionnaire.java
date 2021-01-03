@@ -1,20 +1,25 @@
 package it.lea.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-
+ 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "questionnaire", schema = "db_easyr")
+@NamedQuery(name = "Questionnaire.getQuestOfToday", query = "SELECT q FROM Questionnaire q WHERE q.dateQ=CURRENT_DATE")
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +28,8 @@ public class Questionnaire implements Serializable {
 	private Integer id;
 	@OneToMany(mappedBy = "quest")
 	private List<Answer> answers;
-	// private Date date;
+	@Temporal(TemporalType.DATE)
+	private Date dateQ;
 	@ManyToOne
 	@JoinColumn(name = "prodId")
 	private Product prod;
@@ -43,12 +49,10 @@ public class Questionnaire implements Serializable {
 
 	}
 
-	public Questionnaire(List<Answer> answers, Date date, Product prod, Integer nQMark, String qMark1, String qMark2,
-			String qMark3, String qMark4, String qMark5, String qMark6, String qMark7, String qMark8, String qMark9,
-			String qMark10) {
+	public Questionnaire(Date dateQ, Product prod, Integer nQMark, String qMark1, String qMark2, String qMark3,
+			String qMark4, String qMark5, String qMark6, String qMark7, String qMark8, String qMark9, String qMark10) {
 		super();
-		// this.answers = answers;
-		// this.date = date;
+		this.dateQ = dateQ;
 		this.prod = prod;
 		this.nQMark = nQMark;
 		this.qMark1 = qMark1;
@@ -69,11 +73,13 @@ public class Questionnaire implements Serializable {
 	 * public void setAnswers(List<Answer> answers) { this.answers = answers; }
 	 */
 
-	/*
-	 * public Date getDate() { return date; }
-	 * 
-	 * public void setDate(Date date) { this.date = date; }
-	 */
+	public Date getDate() {
+		return dateQ;
+	}
+
+	public void setDate(Date dateQ) {
+		this.dateQ = dateQ;
+	}
 
 	public Product getProd() {
 		return prod;

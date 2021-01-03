@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+
+import it.lea.entities.Product;
+import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
 import it.lea.exceptions.RegistrationException;
@@ -39,12 +42,25 @@ public class UserService {
 
 		User user = new User(usrn, email, pwd);
 		try {
-			em.persist(user);
+			em.persist(user); 
 			em.flush();
+			
 		} catch (PersistenceException e) {
 			throw new RegistrationException("Could not register the user");
 		}
 		return user;
+	}
+	
+	public List<User> getLeaderboard() throws Exception {
+
+		List<User> userList = null;
+		try {
+ 			userList = em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
+			
+		} catch (Exception e) {
+			throw new Exception("Non ho trovato la leaderboard");
+		}
+		return userList;
 	}
 
 }

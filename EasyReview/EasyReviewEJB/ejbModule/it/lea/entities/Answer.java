@@ -42,16 +42,24 @@ public class Answer implements Serializable {
 
 	}
 
-	/*
-	 * public Answer(User user, Questionnaire quest, Integer age, String sex, String
-	 * expertice, String aMark1, String aMark2, String aMark3, String aMark4, String
-	 * aMark5, String aMark6, String aMark7, String aMark8, String aMark9, String
-	 * aMark10) { super(); this.user = user; //this.quest = quest; this.age = age;
-	 * this.sex = sex; this.expertice = expertice; this.aMark1 = aMark1; this.aMark2
-	 * = aMark2; this.aMark3 = aMark3; this.aMark4 = aMark4; this.aMark5 = aMark5;
-	 * this.aMark6 = aMark6; this.aMark7 = aMark7; this.aMark8 = aMark8; this.aMark9
-	 * = aMark9; this.aMark10 = aMark10; }
-	 */
+	public Answer(User user, Questionnaire quest, Integer age, String sex, String expertice, String aMark1,
+			String aMark2, String aMark3, String aMark4, String aMark5, String aMark6, String aMark7, String aMark8,
+			String aMark9, String aMark10) {
+		super();
+		this.user = user; // this.quest = quest; this.age = age;
+		this.sex = sex;
+		this.expertice = expertice;
+		this.aMark1 = aMark1;
+		this.aMark2 = aMark2;
+		this.aMark3 = aMark3;
+		this.aMark4 = aMark4;
+		this.aMark5 = aMark5;
+		this.aMark6 = aMark6;
+		this.aMark7 = aMark7;
+		this.aMark8 = aMark8;
+		this.aMark9 = aMark9;
+		this.aMark10 = aMark10;
+	}
 
 	public User getUser() {
 		return user;

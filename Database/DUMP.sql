@@ -1,5 +1,8 @@
 use db_easyr;
 select * from usr;
+select * from product;
+select * from questionnaire;
+
 
 create table usr(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
@@ -9,10 +12,13 @@ create table usr(
     banned TINYINT(1) DEFAULT 0,
     hasQOT TINYINT(1) DEFAULT 0, 
     pointOfToday INTEGER DEFAULT 0,
-    totalPoints INTEGER DEFAULT 0,
+    totalPoints INTEGER DEFAULT 0, 
     administrator TINYINT(1) DEFAULT 0,
     PRIMARY KEY (id)
 );
+
+UPDATE usr set pointOfToday=700, hasQOT=1 where id=1 
+
 
 create table product (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
@@ -41,7 +47,7 @@ SELECT * FROM review;
 
 create table questionnaire (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
-    date date UNIQUE NOT NULL,
+    dateQ date UNIQUE NOT NULL,
     prodId INTEGER UNSIGNED,
     nQMark INTEGER UNSIGNED NOT NULL,
     qMark1 VARCHAR(150) DEFAULT NULL,
@@ -58,7 +64,7 @@ create table questionnaire (
     FOREIGN KEY (prodId) REFERENCES product(id) ON DELETE CASCADE
 );
 
-INSERT INTO questionnaire (date, prodId, nQMark, qMark1, qMark2, qMark3 ) VALUES ('2020/12/23', 2, 3, 'Do you know the product?', 'Have you purchased the
+INSERT INTO questionnaire (dateq, prodId, nQMark, qMark1, qMark2, qMark3 ) VALUES ('2021/01/03', 3, 3, 'Do you know the product?', 'Have you purchased the
 product before?', 'Would you recommend the product to a friend?');
 
 create table answer (

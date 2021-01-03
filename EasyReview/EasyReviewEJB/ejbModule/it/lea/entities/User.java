@@ -1,20 +1,22 @@
 package it.lea.entities;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
+ 
+ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+ import javax.persistence.Table;
 
 @Entity
 @Table(name = "usr", schema = "db_easyr")
-@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2")
+@NamedQueries({
+		@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"),
+		@NamedQuery(name = "User.getLeaderboard", query = "SELECT r FROM User r WHERE r.hasQOT=true ORDER BY r.pointOfToday DESC") 
+})
+
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
