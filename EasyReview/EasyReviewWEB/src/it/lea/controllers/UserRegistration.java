@@ -69,6 +69,8 @@ public class UserRegistration extends HttpServlet {
 			return;
 		}
 
+		
+		/*
 		User user = null;
 		try {
 			// query db to authenticate for user
@@ -81,6 +83,7 @@ public class UserRegistration extends HttpServlet {
 			return;
 
 		}
+		
 
 		if (user == null) {
 			System.out.println("Messaggio di errore-> registrazione fallita");
@@ -88,7 +91,7 @@ public class UserRegistration extends HttpServlet {
 			request.setAttribute("user", usrn);
 			RequestDispatcher rd = request.getRequestDispatcher("ShowInfo.jsp");
 			rd.forward(request, response);
-		}
+		}*/
 	}
 
 }

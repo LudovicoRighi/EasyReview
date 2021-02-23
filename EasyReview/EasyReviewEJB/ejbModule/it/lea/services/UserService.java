@@ -38,6 +38,8 @@ public class UserService {
 
 	}
 
+	
+	/*
 	public User registerUser(String usrn, String pwd, String email) throws RegistrationException {
 
 		User user = new User(usrn, email, pwd);
@@ -50,6 +52,8 @@ public class UserService {
 		}
 		return user;
 	}
+	*/
+	
 	
 	public List<User> getLeaderboard() throws Exception {
 

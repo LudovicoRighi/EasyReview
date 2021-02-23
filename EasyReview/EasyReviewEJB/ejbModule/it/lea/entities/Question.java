@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,9 +25,12 @@ public class Question implements Serializable {
 	@Column(name="question_text")
 	private String text;
 	
-	
 	@OneToMany (mappedBy="question")
 	private List<Answer> answers;
+	
+	@ManyToOne
+	@JoinColumn(name = "questionnaire_id")
+	private Questionnaire questionnaire;
 	
  
 
@@ -33,6 +38,53 @@ public class Question implements Serializable {
 
 	}
 
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
+	public String getText() {
+		return text;
+	}
+
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
+
+
+	public Questionnaire getQuestionnaire() {
+		return questionnaire;
+	}
+
+
+
+	public void setQuestionnaire(Questionnaire questionnaire) {
+		this.questionnaire = questionnaire;
+	}
 	
 
 }

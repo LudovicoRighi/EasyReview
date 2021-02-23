@@ -18,6 +18,7 @@ public class AnswerService {
 		
 	}
 
+	/*
 	public Answer insertAnswer() throws Exception{
 		User user = em.find(User.class, 1);
 		Questionnaire quest = em.find(Questionnaire.class, 1);
@@ -31,5 +32,6 @@ public class AnswerService {
 		}
 		return ans;
 	}
+	*/
 
 }

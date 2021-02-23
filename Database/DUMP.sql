@@ -21,6 +21,49 @@ create table admn(
 );
 
 
+create table offensive_word(
+	id INTEGER UNSIGNED AUTO_INCREMENT,
+    word VARCHAR(20) UNIQUE NOT NULL, 
+    PRIMARY KEY (id)
+);
+
+
+create table log(
+	id INTEGER UNSIGNED AUTO_INCREMENT,
+    user_id INTEGER UNSIGNED,
+	ts datetime NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE
+);
+
+
+create table product (
+	id INTEGER UNSIGNED AUTO_INCREMENT,
+    prod_name VARCHAR(30) NOT NULL,
+    thumb mediumblob,
+	photoimage longblob,
+    PRIMARY KEY (id)
+);
+  
+  
+create table review (
+	id INTEGER UNSIGNED AUTO_INCREMENT,
+	product_id INTEGER UNSIGNED,
+    review_text VARCHAR(400) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+);
+
+
+create table questionnaire (
+	id INTEGER UNSIGNED AUTO_INCREMENT,
+    date_questionnaire date UNIQUE NOT NULL,
+    product_id INTEGER UNSIGNED,
+    PRIMARY KEY (id),
+    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
+);
+
+
 create table filled_form (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     user_id INTEGER UNSIGNED, 
@@ -53,6 +96,7 @@ create table answer (
 	FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE
 );
 
+
 create table answer_form (
 	answer_id INTEGER UNSIGNED,
 	form_id INTEGER UNSIGNED,
@@ -62,47 +106,13 @@ create table answer_form (
 );
 
 
-create table questionnaire (
-	id INTEGER UNSIGNED AUTO_INCREMENT,
-    date_questionnaire date UNIQUE NOT NULL,
-    prodId INTEGER UNSIGNED,
-    PRIMARY KEY (id),
-    FOREIGN KEY (prodId) REFERENCES product(id) ON DELETE CASCADE
-);
-
-
-create table product (
-	id INTEGER UNSIGNED AUTO_INCREMENT,
-    prod_name VARCHAR(30) NOT NULL,
-    thumb mediumblob,
-	photoimage longblob,
-    PRIMARY KEY (id)
-);
-  
-  
-create table review (
-	id INTEGER UNSIGNED AUTO_INCREMENT,
-	product_id INTEGER UNSIGNED,
-    review_text VARCHAR(400) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
-);
 
 
 
-create table offensive_word(
-	id INTEGER UNSIGNED AUTO_INCREMENT,
-    word VARCHAR(20) UNIQUE NOT NULL, 
-    PRIMARY KEY (id)
-);
 
-create table log(
-	id INTEGER UNSIGNED AUTO_INCREMENT,
-    user_id INTEGER UNSIGNED,
-	ts datetime NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE
-);
+
+
+
 
 
 

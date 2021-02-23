@@ -30,7 +30,8 @@ public class GoToHomePage extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("errore homepage");
 		}
-		System.out.println("Prodotto" + prod.getPathToImage() + prod.getpName());
+ 		
+		// System.out.println("Prodotto" + prod.getPathToImage() + prod.getpName());
 
 	}
 

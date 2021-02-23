@@ -2,7 +2,6 @@ package it.lea.entities;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +17,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "product", schema = "db_easyr")
-@NamedQuery(name = "Product.getProdOfToday", query = "SELECT p FROM Questionnaire q JOIN q.prod p WHERE q.dateQ=CURRENT_DATE")
+@NamedQuery(name = "Product.getProdOfToday", query = "SELECT p FROM Questionnaire q JOIN q.product p WHERE q.date=CURRENT_DATE")
+
 public class Product implements Serializable {
 	/**
 	 * 
@@ -28,10 +28,10 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@OneToMany(mappedBy = "prod", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
 	private List<Questionnaire> questionnaires;
 	
-	@OneToMany(mappedBy = "prod", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
 	private List<Review> reviews;
 	
 	

@@ -33,7 +33,7 @@ public class GoToLeaderboardPage extends HttpServlet {
 			System.out.println("errore leaderboardPage");
 		}
 		for (User u : userList) {
-			System.out.println(u.getUsername() + "\t" + u.getPointOfToday());
+			// System.out.println(u.getUsername() + "\t" + u.getPointOfToday());
 		}
 
 	}

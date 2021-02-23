@@ -35,16 +35,16 @@ public class GoToQuestionnairePage extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("errore homepage");
 		}
-		System.out.println("Questionario" + quest.getDate() + quest.getProd() + quest.getnQMark() + quest.getqMark1()
-				+ quest.getqMark2() + quest.getqMark3() + quest.getqMark4() + quest.getqMark5() + quest.getqMark6()
-				+ quest.getqMark7() + quest.getqMark1());
+		// System.out.println("Questionario" + quest.getDate() + quest.getProd() + quest.getnQMark() + quest.getqMark1()
+		//		+ quest.getqMark2() + quest.getqMark3() + quest.getqMark4() + quest.getqMark5() + quest.getqMark6()
+		//		+ quest.getqMark7() + quest.getqMark1());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		Answer ans = null;
+		/*Answer ans = null;
 		try {
 			// query db to authenticate for user
 			ans = ansService.insertAnswer();
@@ -55,10 +55,9 @@ public class GoToQuestionnairePage extends HttpServlet {
 			// rd.include(request, response);
 			return;
 
-		}
+		}*/
 
-		System.out
-				.println("la nuova Answer è:" + ans.getSex() + ans.getaMark1() + ans.getaMark10() + ans.getExpertice());
+		// System.out.println("la nuova Answer è:" + ans.getSex() + ans.getaMark1() + ans.getaMark10() + ans.getExpertice());
 	}
 
 }
