@@ -105,11 +105,11 @@ create table answer_form (
 );
 
 
-INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5', LOAD_FILE('D:\Desktop\Databases2Project\Images\PlayStation-5'))
+
+INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5',_binary'abc');
 
 
-
-
+INSERT INTO questionnaire (date_questionnaire, product_id) VALUES ( date(now()) ,3)
 
 
 

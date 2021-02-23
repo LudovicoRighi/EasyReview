@@ -20,28 +20,25 @@ import javax.persistence.Table;
 @NamedQuery(name = "Product.getProdOfToday", query = "SELECT p FROM Questionnaire q JOIN q.product p WHERE q.date=CURRENT_DATE")
 
 public class Product implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
 	private List<Questionnaire> questionnaires;
-	
-	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private List<Review> reviews;
-	
-	
+
 	@Basic(fetch = FetchType.EAGER)
 	@Lob
 	private byte[] photoimage;
 
-	
-	@Column(name="prod_name")
+	@Column(name = "prod_name")
 	private String name;
-	
-	
+
 	public Product() {
 
 	}
@@ -50,51 +47,40 @@ public class Product implements Serializable {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public List<Questionnaire> getQuestionnaires() {
 		return questionnaires;
 	}
 
-
 	public void setQuestionnaires(List<Questionnaire> questionnaires) {
 		this.questionnaires = questionnaires;
 	}
-
 
 	public List<Review> getReviews() {
 		return reviews;
 	}
 
-
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-
 
 	public byte[] getPhotoimage() {
 		return photoimage;
 	}
 
-
 	public void setPhotoimage(byte[] photoimage) {
 		this.photoimage = photoimage;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
 }

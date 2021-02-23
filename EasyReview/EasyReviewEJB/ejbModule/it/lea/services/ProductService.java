@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-// import it.lea.entities.Product; 
+import it.lea.entities.Product; 
 
 @Stateless
 public class ProductService {
@@ -15,7 +15,6 @@ public class ProductService {
 		
 	}
 	
-	/*
 	public Product getProductOfToday() {
 		Product prod = null;
 		try {
@@ -25,6 +24,6 @@ public class ProductService {
 		}
 		return prod;
 	}
-	*/
+	
 	
 }
