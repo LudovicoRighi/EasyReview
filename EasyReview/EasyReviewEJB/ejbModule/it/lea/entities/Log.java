@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "log", schema = "db_easyr")
@@ -25,6 +27,8 @@ public class Log implements Serializable {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="ts")
 	private Date date;
 

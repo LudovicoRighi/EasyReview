@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.lea.entities.Answer;
+/*import it.lea.entities.Answer;
 import it.lea.entities.Product;
-import it.lea.entities.Questionnaire;
+import it.lea.entities.Questionnaire;*/
 import it.lea.entities.User;
 import it.lea.exceptions.RegistrationException;
 import it.lea.services.UserService;
@@ -70,7 +70,7 @@ public class UserRegistration extends HttpServlet {
 		}
 
 		
-		/*
+		
 		User user = null;
 		try {
 			// query db to authenticate for user
@@ -91,7 +91,7 @@ public class UserRegistration extends HttpServlet {
 			request.setAttribute("user", usrn);
 			RequestDispatcher rd = request.getRequestDispatcher("ShowInfo.jsp");
 			rd.forward(request, response);
-		}*/
+		}
 	}
 
 }

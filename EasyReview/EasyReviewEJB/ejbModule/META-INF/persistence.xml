@@ -6,14 +6,14 @@
 	<persistence-unit name="EasyReviewEJB"
 		transaction-type="JTA">
 		<jta-data-source>EasyReviewDB</jta-data-source>
-		<class>it.lea.entities.User</class>
-		<class>it.lea.entities.Answer</class>
+		<class>it.lea.entities.User</class>		
+		<class>it.lea.entities.Log</class>		
+		<class>it.lea.entities.FilledForm</class>	
+		<class>it.lea.entities.Answer</class>		
+		<class>it.lea.entities.Question</class>		
 		<class>it.lea.entities.Questionnaire</class>
 		<class>it.lea.entities.Product</class>
 		<class>it.lea.entities.Review</class>
-		<class>it.lea.entities.FilledForm</class>
-		<class>it.lea.entities.Log</class>
-		<class>it.lea.entities.Question</class>		
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 		</properties>

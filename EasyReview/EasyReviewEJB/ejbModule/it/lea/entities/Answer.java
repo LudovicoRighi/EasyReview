@@ -21,9 +21,11 @@ public class Answer implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	
 	@ManyToOne
 	@JoinColumn(name = "question_id")
 	private Question question;
+	
 	
 	@ManyToMany (mappedBy="answers")
 	private List<FilledForm> forms;

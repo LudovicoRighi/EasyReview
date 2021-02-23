@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.lea.entities.Answer;
-import it.lea.entities.Questionnaire;
+// import it.lea.entities.Answer;
+// import it.lea.entities.Questionnaire;
 import it.lea.services.AnswerService;
 import it.lea.services.QuestionnaireService;
 
@@ -27,6 +27,7 @@ public class GoToQuestionnairePage extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
+	/*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Questionnaire quest = null;
@@ -39,6 +40,7 @@ public class GoToQuestionnairePage extends HttpServlet {
 		//		+ quest.getqMark2() + quest.getqMark3() + quest.getqMark4() + quest.getqMark5() + quest.getqMark6()
 		//		+ quest.getqMark7() + quest.getqMark1());
 	}
+	*/
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

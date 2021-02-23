@@ -20,9 +20,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "Product.getProdOfToday", query = "SELECT p FROM Questionnaire q JOIN q.product p WHERE q.date=CURRENT_DATE")
 
 public class Product implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +37,6 @@ public class Product implements Serializable {
 	@Lob
 	private byte[] photoimage;
 
-	@Lob
-	private byte[] thumb;
 	
 	@Column(name="prod_name")
 	private String name;
@@ -49,7 +45,6 @@ public class Product implements Serializable {
 	public Product() {
 
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -88,16 +83,6 @@ public class Product implements Serializable {
 
 	public void setPhotoimage(byte[] photoimage) {
 		this.photoimage = photoimage;
-	}
-
-
-	public byte[] getThumb() {
-		return thumb;
-	}
-
-
-	public void setThumb(byte[] thumb) {
-		this.thumb = thumb;
 	}
 
 

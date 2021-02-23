@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import it.lea.entities.Product;
+// import it.lea.entities.Product;
 import it.lea.services.ProductService;
 
 @WebServlet("/GoToHomePage")
@@ -22,6 +22,7 @@ public class GoToHomePage extends HttpServlet {
 		super();
 	}
 
+	/*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Product prod = null;
@@ -33,6 +34,6 @@ public class GoToHomePage extends HttpServlet {
  		
 		// System.out.println("Prodotto" + prod.getPathToImage() + prod.getpName());
 
-	}
+	}*/
 
 }

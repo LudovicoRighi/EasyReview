@@ -75,7 +75,7 @@ public class Question implements Serializable {
 	}
 
 
-
+/*
 	public Questionnaire getQuestionnaire() {
 		return questionnaire;
 	}
@@ -85,6 +85,6 @@ public class Question implements Serializable {
 	public void setQuestionnaire(Questionnaire questionnaire) {
 		this.questionnaire = questionnaire;
 	}
-	
+	*/
 
 }

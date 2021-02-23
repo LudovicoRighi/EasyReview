@@ -39,9 +39,6 @@ public class FilledForm implements Serializable {
 			@JoinColumn(name = "answer_id") })
 	private List<Answer> answers;
 
-	@Column(name = "review_text")
-	private String text;
-
 	private Integer age;
 	private String sex;
 	private String expertice;
@@ -65,30 +62,16 @@ public class FilledForm implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public Questionnaire getQuestionnaire() {
-		return questionnaire;
-	}
-
-	public void setQuestionnaire(Questionnaire questionnaire) {
-		this.questionnaire = questionnaire;
-	}
-
-	public List<Answer> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
+	/*
+	 * public Questionnaire getQuestionnaire() { return questionnaire; }
+	 * 
+	 * public void setQuestionnaire(Questionnaire questionnaire) {
+	 * this.questionnaire = questionnaire; }
+	 * 
+	 * public List<Answer> getAnswers() { return answers; }
+	 * 
+	 * public void setAnswers(List<Answer> answers) { this.answers = answers; }
+	 */
 
 	public Integer getAge() {
 		return age;

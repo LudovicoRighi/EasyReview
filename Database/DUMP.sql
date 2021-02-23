@@ -31,7 +31,7 @@ create table offensive_word(
 create table log(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     user_id INTEGER UNSIGNED,
-	ts datetime NOT NULL,
+	ts timestamp NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE
 );
@@ -40,8 +40,7 @@ create table log(
 create table product (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     prod_name VARCHAR(30) NOT NULL,
-    thumb mediumblob,
-	photoimage longblob,
+	photoimage blob,
     PRIMARY KEY (id)
 );
   
@@ -106,9 +105,7 @@ create table answer_form (
 );
 
 
-
-
-
+INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5', LOAD_FILE('D:\Desktop\Databases2Project\Images\PlayStation-5'))
 
 
 

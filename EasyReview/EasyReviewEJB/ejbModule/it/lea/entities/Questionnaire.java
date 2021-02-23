@@ -38,7 +38,10 @@ public class Questionnaire implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
- 
+	
+	@OneToMany(mappedBy="questionnaire")
+	private List<Question> questions;
+	
 
 	public Questionnaire() {
 
@@ -73,7 +76,7 @@ public class Questionnaire implements Serializable {
 		this.date = date;
 	}
 
-
+/*
 	public Product getProduct() {
 		return product;
 	}
@@ -82,6 +85,6 @@ public class Questionnaire implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+	*/
 
 }

@@ -4,8 +4,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext; 
 
-import it.lea.entities.Answer;
-import it.lea.entities.Questionnaire;
+// import it.lea.entities.Answer;
+// import it.lea.entities.Questionnaire;
 import it.lea.entities.User; 
 
 @Stateless

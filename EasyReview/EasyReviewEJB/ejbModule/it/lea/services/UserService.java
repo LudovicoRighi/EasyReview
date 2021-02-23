@@ -8,8 +8,8 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import it.lea.entities.Product;
-import it.lea.entities.Questionnaire;
+// import it.lea.entities.Product;
+// import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
 import it.lea.exceptions.RegistrationException;
@@ -39,7 +39,7 @@ public class UserService {
 	}
 
 	
-	/*
+	
 	public User registerUser(String usrn, String pwd, String email) throws RegistrationException {
 
 		User user = new User(usrn, email, pwd);
@@ -52,7 +52,7 @@ public class UserService {
 		}
 		return user;
 	}
-	*/
+	
 	
 	
 	public List<User> getLeaderboard() throws Exception {
