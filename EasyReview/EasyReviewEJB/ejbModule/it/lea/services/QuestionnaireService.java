@@ -3,6 +3,8 @@ package it.lea.services;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import it.lea.entities.Questionnaire;
  
 // import it.lea.entities.Questionnaire;
 
@@ -14,7 +16,7 @@ public class QuestionnaireService {
 	public QuestionnaireService() {
 		
 	}
-	/*
+	
 	public Questionnaire getQuestionnaireOfToday() {
 		Questionnaire quest = null;
 		try {
@@ -23,5 +25,5 @@ public class QuestionnaireService {
 			System.out.println("questionario non trovato");
 		}
 		return quest;
-	}*/
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,7 +40,7 @@ public class Questionnaire implements Serializable {
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
-	@OneToMany(mappedBy="questionnaire")
+	@OneToMany(mappedBy="questionnaire", fetch=FetchType.EAGER)
 	private List<Question> questions;
 	
 
@@ -76,7 +77,7 @@ public class Questionnaire implements Serializable {
 		this.date = date;
 	}
 
-/*
+
 	public Product getProduct() {
 		return product;
 	}
@@ -85,6 +86,16 @@ public class Questionnaire implements Serializable {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	*/
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+	
+	
+	
 
 }

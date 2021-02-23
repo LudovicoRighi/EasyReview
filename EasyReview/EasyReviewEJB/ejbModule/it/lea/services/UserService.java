@@ -22,6 +22,10 @@ public class UserService {
 	public UserService() {
 	}
 
+	public User findById(int userId) {
+		return (em.find(User.class, userId));
+	}
+
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 		List<User> uList = null;
 		try {
@@ -38,33 +42,30 @@ public class UserService {
 
 	}
 
-	
-	
+	/*
 	public User registerUser(String usrn, String pwd, String email) throws RegistrationException {
 
 		User user = new User(usrn, email, pwd);
 		try {
-			em.persist(user); 
+			em.persist(user);
 			em.flush();
-			
+
 		} catch (PersistenceException e) {
 			throw new RegistrationException("Could not register the user");
 		}
 		return user;
 	}
-	
-	
-	
+
 	public List<User> getLeaderboard() throws Exception {
 
 		List<User> userList = null;
 		try {
- 			userList = em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
-			
+			userList = em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
+
 		} catch (Exception e) {
 			throw new Exception("Non ho trovato la leaderboard");
 		}
 		return userList;
 	}
-
+*/
 }
