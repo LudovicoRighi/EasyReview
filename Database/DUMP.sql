@@ -53,6 +53,14 @@ create table answer (
 	FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE
 );
 
+create table answer_form (
+	answer_id INTEGER UNSIGNED,
+	form_id INTEGER UNSIGNED,
+    PRIMARY KEY( answer_id, form_id),   
+	FOREIGN KEY (answer_id) REFERENCES answer(id) ON DELETE CASCADE,
+	FOREIGN KEY (form_id) REFERENCES filled_form(id) ON DELETE CASCADE
+);
+
 
 create table questionnaire (
 	id INTEGER UNSIGNED AUTO_INCREMENT,

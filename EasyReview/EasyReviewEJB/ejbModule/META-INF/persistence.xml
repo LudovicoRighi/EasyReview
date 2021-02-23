@@ -11,6 +11,9 @@
 		<class>it.lea.entities.Questionnaire</class>
 		<class>it.lea.entities.Product</class>
 		<class>it.lea.entities.Review</class>
+		<class>it.lea.entities.FilledForm</class>
+		<class>it.lea.entities.Log</class>
+		<class>it.lea.entities.Question</class>		
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 		</properties>

@@ -1,7 +1,7 @@
 package it.lea.entities;
 
 import java.io.Serializable;
-
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "review", schema = "db_easyr")
-public class Review implements Serializable {
+@Table(name = "log", schema = "db_easyr")
+public class Log implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -22,16 +22,17 @@ public class Review implements Serializable {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
+	@JoinColumn(name = "user_id")
+	private User user;
 	
-	@Column (name="review_text")
-	private String text;
-	
-	public Review() {
+	@Column(name="ts")
+	private Date date;
 
+	
+	public Log() {
+		
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -40,24 +41,22 @@ public class Review implements Serializable {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public User getUser() {
+		return user;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getText() {
-		return text;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
-	
 
-	
 
 }

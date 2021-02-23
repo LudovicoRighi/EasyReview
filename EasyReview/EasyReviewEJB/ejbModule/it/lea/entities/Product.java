@@ -2,11 +2,16 @@ package it.lea.entities;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,53 +27,89 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@OneToMany(mappedBy = "prod", cascade = { CascadeType.ALL })
 	private List<Questionnaire> questionnaires;
+	
 	@OneToMany(mappedBy = "prod", cascade = { CascadeType.ALL })
 	private List<Review> reviews;
-	private String pathToImage;
-	private String pName;
+	
+	
+	@Basic(fetch = FetchType.EAGER)
+	@Lob
+	private byte[] photoimage;
 
+	@Lob
+	private byte[] thumb;
+	
+	@Column(name="prod_name")
+	private String name;
+	
+	
 	public Product() {
 
 	}
 
-	public Product(String pathToImage, String pName) {
-		super();  
-		this.pathToImage = pathToImage;
-		this.pName = pName;
+
+	public Integer getId() {
+		return id;
 	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 
 	public List<Questionnaire> getQuestionnaires() {
 		return questionnaires;
 	}
 
+
 	public void setQuestionnaires(List<Questionnaire> questionnaires) {
 		this.questionnaires = questionnaires;
 	}
+
 
 	public List<Review> getReviews() {
 		return reviews;
 	}
 
+
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	public String getPathToImage() {
-		return pathToImage;
+
+	public byte[] getPhotoimage() {
+		return photoimage;
 	}
 
-	public void setPathToImage(String pathToImage) {
-		this.pathToImage = pathToImage;
+
+	public void setPhotoimage(byte[] photoimage) {
+		this.photoimage = photoimage;
 	}
 
-	public String getpName() {
-		return pName;
+
+	public byte[] getThumb() {
+		return thumb;
 	}
 
-	public void setpName(String pName) {
-		this.pName = pName;
+
+	public void setThumb(byte[] thumb) {
+		this.thumb = thumb;
 	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 
 }
