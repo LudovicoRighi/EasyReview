@@ -118,12 +118,6 @@ INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you play FIFA
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Have you ever used this product?',1);
 
 
-
-
-
-
-
-
 INSERT INTO product (prod_name, photoimage) VALUES ('XBox360',_binary'fgh');
 
 INSERT INTO review (product_id, review_text) VALUES (2, 'I love it!');
@@ -138,4 +132,5 @@ INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like it?'
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Where did you buy it?',2);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Did you try the product before buying it?',2);
 
+INSERT INTO admn (
 
