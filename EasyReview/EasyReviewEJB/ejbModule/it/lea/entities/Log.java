@@ -37,6 +37,15 @@ public class Log implements Serializable {
 		
 	}
 	
+	
+	public Log(User user, Date date) {
+		super();
+		this.user = user;
+		this.date = date;
+	}
+
+
+
 	public Integer getId() {
 		return id;
 	}

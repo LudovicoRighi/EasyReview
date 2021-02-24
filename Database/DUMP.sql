@@ -106,16 +106,16 @@ create table answer_form (
 
 
 
-INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5',_binary'abc');
-
-
-INSERT INTO questionnaire (date_questionnaire, product_id) VALUES ( date(now()) ,1);
 
 INSERT INTO usr (username, email, password, banned, totalPoints) VALUES ('ludorighi', 'ludo.righi@hotmail.it', 'a', 0, 0);
+
+INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5',_binary'abc');
 
 INSERT INTO review (product_id, review_text) VALUES (1, 'Amazing product!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'Increadibile quality!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'I recommend it to everyone!');
+
+INSERT INTO questionnaire (date_questionnaire, product_id) VALUES ( date(now()) ,1);
 
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like the product?',1);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you play FIFA21?',1);
