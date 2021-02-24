@@ -57,10 +57,6 @@ public class GoToLeaderboardPage extends HttpServlet {
 		try {
 			userList = userService.getLeaderboard();
 
-			for (User u : userList) {
-				System.out.println("USERRRRRRRR" + " " + u.getUsername());
-			}
-
 		} catch (Exception e) {
 			System.out.println("errore leaderboardPage");
 		}

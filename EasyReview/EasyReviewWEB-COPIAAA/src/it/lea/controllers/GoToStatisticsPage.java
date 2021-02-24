@@ -73,9 +73,7 @@ public class GoToStatisticsPage extends HttpServlet {
 		List<String> answers = new ArrayList<String>();
 		for (Question q : questions) {
 
-			answers.add(request.getParameter(Integer.toString(q.getId())));
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + " "
-					+ StringEscapeUtils.escapeJava(request.getParameter(Integer.toString(q.getId()))));
+			answers.add(request.getParameter(Integer.toString(q.getId()))); 
 		}
 
 		/* FINE */
