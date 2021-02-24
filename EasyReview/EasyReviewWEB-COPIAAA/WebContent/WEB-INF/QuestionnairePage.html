@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>QuestionnairePage</title>
+</head>
+<body>
+
+	<h1>This is the Questionnaire Page</h1>
+
+	<h2>Marketing Section</h2>
+
+
+	<form action="StatisticsPage" method="POST">
+		<section>
+			<div th:if="${#lists.isEmpty(questions)}">
+				<span> No questions found</span>
+			</div>
+			<div th:if="${not #lists.isEmpty(questions)}">
+				<table>
+					<thead>
+						<tr>
+							<th>Questions</th>
+							<th>Answers</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="q : ${questions}">
+							<td th:text="${q.text}"></td>
+							<td><input th:name="${q.id}" type="text"
+								class="form-control" th:value="${q.id}" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<input type="submit" name="Next" value="Next">
+	</form>
+
+</body>
+</html>

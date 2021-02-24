@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Statistics Page</title>
+</head>
+<body>
+
+	<h1>This is the Statistics Page</h1>
+
+
+	<form action="ThanksPage" method="POST">
+		Age: <input type="text" name="age" required> <br> 
+		Sex: <input	type="text" name="sex" required><br> 
+		Expertice: <input	type="text" name="expertice" required><br> 
+		<input type="submit" name="Submit" value="Submit">
+	</form>
+
+
+	<form action="QuestionnairePage" method="GET">
+		<input type="submit" name="Previous" value="Previous">
+	</form>
+
+	<form action="Home" method="GET">
+		<input type="submit" name="Cancel" value="Cancel">
+	</form>
+
+
+
+</body>
+</html>

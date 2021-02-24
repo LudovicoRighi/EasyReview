@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/mystyle.css" th:href="@{/css/mystyle.css}" />
+</head>
+<body>
+
+	<div align="right">
+		<a th:href="@{/Logout}">Logout</a>
+	</div>
+
+	<h1>Welcome to the Easy Review Home Page</h1>
+	<p th:text="${'Nice to see you again ' + session.user.username }"></p>
+
+
+	<h2>The product of the day is</h2>
+	<p th:text="${product.name}"></p>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Reviews</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="r : ${reviews}">
+				<td th:text="${r.text}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div>
+		<a th:href="@{/QuestionnairePage}">Go to Questionnaire of the day</a>
+	</div>
+
+
+	<div>
+		<a th:href="@{/LeaderboardPage}">Go to Leaderboard of the day</a>
+	</div>
+
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Leaderboard Page</title>
+</head>
+<body>
+
+	<h1>This is the Leaderboard Page</h1>
+
+
+	<table>
+		<thead>
+			<tr>
+				<th>Users</th>
+				<th>Points</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="u : ${users}">
+				<td th:text="${u.username}"></td>
+				<td th:text="${u.id}"></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<form action="Home" method="GET">
+		<input type="submit" name="Home" value="Home">
+	</form>
+
+
+</body>
+</html>
