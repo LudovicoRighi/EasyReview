@@ -67,7 +67,6 @@ create table filled_form (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     user_id INTEGER UNSIGNED, 
     questionnaire_id INTEGER UNSIGNED,
-    dateForm date UNIQUE NOT NULL,
     age INTEGER UNSIGNED DEFAULT NULL,
     sex VARCHAR(10) DEFAULT NULL,
     expertice VARCHAR(150) DEFAULT NULL,
@@ -90,19 +89,16 @@ create table question (
 create table answer (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
 	question_id INTEGER UNSIGNED,
+    form_id INTEGER UNSIGNED,
     response VARCHAR(150) DEFAULT NULL,
     PRIMARY KEY(id),
-	FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE
+	FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE,
+    FOREIGN KEY (form_id) REFERENCES filled_form(id) ON DELETE CASCADE
+
 );
 
 
-create table answer_form (
-	answer_id INTEGER UNSIGNED,
-	form_id INTEGER UNSIGNED,
-    PRIMARY KEY( answer_id, form_id),   
-	FOREIGN KEY (answer_id) REFERENCES answer(id) ON DELETE CASCADE,
-	FOREIGN KEY (form_id) REFERENCES filled_form(id) ON DELETE CASCADE
-);
+
 
 
 
@@ -115,10 +111,31 @@ INSERT INTO review (product_id, review_text) VALUES (1, 'Amazing product!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'Increadibile quality!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'I recommend it to everyone!');
 
-INSERT INTO questionnaire (date_questionnaire, product_id) VALUES ( date(now()) ,1);
+INSERT INTO questionnaire (date_questionnaire, product_id) VALUES (date(now()) ,1);
 
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like the product?',1);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you play FIFA21?',1);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Have you ever used this product?',1);
+
+
+
+
+
+
+
+
+INSERT INTO product (prod_name, photoimage) VALUES ('XBox360',_binary'fgh');
+
+INSERT INTO review (product_id, review_text) VALUES (2, 'I love it!');
+INSERT INTO review (product_id, review_text) VALUES (2, 'I prefer Playstation honestly..');
+INSERT INTO review (product_id, review_text) VALUES (2, 'I cant stop playing!');
+INSERT INTO review (product_id, review_text) VALUES (2, 'Too expensive!');
+
+
+INSERT INTO questionnaire (date_questionnaire, product_id) VALUES (date(now()) + 1,2);
+
+INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like it?',2);
+INSERT INTO question (question_text, questionnaire_id) VALUES ('Where did you buy it?',2);
+INSERT INTO question (question_text, questionnaire_id) VALUES ('Did you try the product before buying it?',2);
 
 

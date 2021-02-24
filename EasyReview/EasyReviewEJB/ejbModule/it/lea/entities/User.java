@@ -16,7 +16,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "usr", schema = "db_easyr")
 @NamedQueries({
-		@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"), })
+		@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u  WHERE u.username = ?1 and u.password = ?2"),
+		@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u ORDER BY u.id DESC") })
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -31,13 +32,12 @@ public class User implements Serializable {
 	private Boolean banned;
 	private Integer totalPoints;
 
-	/*
-	 * @OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }) private
-	 * List<FilledForm> forms;
-	 */ 
-	  @OneToMany(mappedBy = "user", cascade = { CascadeType.ALL }) private
-	  List<Log> logs;
-	 
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	private List<FilledForm> forms;
+
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	private List<Log> logs;
+
 	public User() {
 
 	}
@@ -47,6 +47,8 @@ public class User implements Serializable {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.banned = false;
+		this.totalPoints = 0;
 	}
 
 	public Integer getId() {
@@ -97,20 +99,14 @@ public class User implements Serializable {
 		this.totalPoints = totalPoints;
 	}
 
-	/*public List<FilledForm> getForms() {
-		return forms;
-	}
-
-	public void setForms(List<FilledForm> forms) {
-		this.forms = forms;
-	}
-
-	public List<Log> getLogs() {
-		return logs;
-	}
-
-	public void setLogs(List<Log> logs) {
-		this.logs = logs;
-	}*/
+	/*
+	 * public List<FilledForm> getForms() { return forms; }
+	 * 
+	 * public void setForms(List<FilledForm> forms) { this.forms = forms; }
+	 * 
+	 * public List<Log> getLogs() { return logs; }
+	 * 
+	 * public void setLogs(List<Log> logs) { this.logs = logs; }
+	 */
 
 }

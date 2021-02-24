@@ -27,8 +27,9 @@ public class Answer implements Serializable {
 	private Question question;
 	
 	
-	@ManyToMany (mappedBy="answers")
-	private List<FilledForm> forms;
+	@ManyToOne  
+	@JoinColumn(name="form_id")
+	private FilledForm form;
 	
 	
 	private String response;
@@ -36,6 +37,18 @@ public class Answer implements Serializable {
 	public Answer() {
 
 	}
+	
+	
+	public Answer(String response, Question question) {
+		this.response=response;
+		this.question=question;
+		
+	}
+	
+	
+	
+	
+	
 
 	public Integer getId() {
 		return id;
@@ -53,12 +66,13 @@ public class Answer implements Serializable {
 		this.question = question;
 	}
 
-	public List<FilledForm> getForms() {
-		return forms;
+	
+	public FilledForm getForm() {
+		return form;
 	}
 
-	public void setForms(List<FilledForm> forms) {
-		this.forms = forms;
+	public void setForm(FilledForm form) {
+		this.form = form;
 	}
 
 	public String getResponse() {

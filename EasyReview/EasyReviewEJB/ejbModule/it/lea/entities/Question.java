@@ -1,6 +1,7 @@
 package it.lea.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+ 
 @Entity
 @Table(name = "question", schema = "db_easyr")
 public class Question implements Serializable {
@@ -75,6 +77,13 @@ public class Question implements Serializable {
 	}
 
 
+	public void addAnswer(Answer answer) {
+		
+		getAnswers().add(answer);
+		
+	}
+
+	
 /*
 	public Questionnaire getQuestionnaire() {
 		return questionnaire;

@@ -2,6 +2,7 @@
 package it.lea.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,7 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "filled_form", schema = "db_easyr")
@@ -34,10 +38,10 @@ public class FilledForm implements Serializable {
 	@JoinColumn(name = "questionnaire_id")
 	private Questionnaire questionnaire;
 
-	@ManyToMany
-	@JoinTable(name = "answer_form", joinColumns = { @JoinColumn(name = "form_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "answer_id") })
+	@OneToMany(mappedBy= "form")
 	private List<Answer> answers;
+	
+
 
 	private Integer age;
 	private String sex;
@@ -46,6 +50,23 @@ public class FilledForm implements Serializable {
 	public FilledForm() {
 
 	}
+	
+	
+	
+
+	public FilledForm(User user, Questionnaire questionnaire, List<Answer> answers, Integer age, String sex,
+			String expertice) {
+		super();
+		this.user = user;
+		this.questionnaire = questionnaire;
+		this.answers = answers;
+		this.age = age;
+		this.sex = sex;
+		this.expertice = expertice;
+	}
+
+
+
 
 	public Integer getId() {
 		return id;

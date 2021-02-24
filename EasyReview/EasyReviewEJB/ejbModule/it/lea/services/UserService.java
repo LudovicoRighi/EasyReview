@@ -55,27 +55,34 @@ public class UserService {
 
 		}
 
-		
 		return log;
 
 	}
-	
 
-	/*
-	 * public User registerUser(String usrn, String pwd, String email) throws
-	 * RegistrationException {
-	 * 
-	 * User user = new User(usrn, email, pwd); try { em.persist(user); em.flush();
-	 * 
-	 * } catch (PersistenceException e) { throw new
-	 * RegistrationException("Could not register the user"); } return user; }
-	 * 
-	 * public List<User> getLeaderboard() throws Exception {
-	 * 
-	 * List<User> userList = null; try { userList =
-	 * em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
-	 * 
-	 * } catch (Exception e) { throw new Exception("Non ho trovato la leaderboard");
-	 * } return userList; }
-	 */
+	public User registerUser(String usrn, String email, String pwd) throws RegistrationException {
+
+		User user = new User(usrn, email, pwd);
+		try {
+			em.persist(user);
+			em.flush();
+
+		} catch (PersistenceException e) {
+			throw new RegistrationException("Could not register the user");
+		}
+		return user;
+	}
+
+	
+	public List<User> getLeaderboard() throws Exception {
+
+		List<User> userList = null;
+		try {
+			userList = em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
+
+		} catch (Exception e) {
+			throw new Exception("Non ho trovato la leaderboard");
+		}
+		return userList;
+	}
+
 }
