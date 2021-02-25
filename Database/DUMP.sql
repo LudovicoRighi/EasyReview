@@ -7,7 +7,7 @@ create table usr(
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(45) NOT NULL,  
     banned TINYINT(1) DEFAULT 0,
-    totalPoints INTEGER DEFAULT 0, 
+    daily_points INTEGER DEFAULT 0, 
     PRIMARY KEY (id)
 );
 
@@ -67,6 +67,7 @@ create table filled_form (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     user_id INTEGER UNSIGNED, 
     questionnaire_id INTEGER UNSIGNED,
+    date_form date NOT NULL,
     age INTEGER UNSIGNED DEFAULT NULL,
     sex VARCHAR(10) DEFAULT NULL,
     expertice VARCHAR(150) DEFAULT NULL,
@@ -104,44 +105,70 @@ create table answer (
 DELIMITER $$
 
 CREATE TRIGGER computePoints
-AFTER INSERT ON filled_form
+BEFORE INSERT ON filled_form
 FOR EACH ROW
 BEGIN
-DECLARE num_mark_quest INT;
 DECLARE age_info, sex_info, exper_info INT;
-
-	SELECT COUNT(*) INTO num_mark_quest FROM question
-    WHERE questionnaire_id=new.questionnaire_id;
-	
-    IF (new.sex <> null)
+ 
+    IF (new.sex is not null  )
 		THEN 
 			SET sex_info=1;
 		ELSE 
 			SET sex_info=0;
     END IF;
     
-     IF (new.age <> null)
+     IF (new.age is not null  )
 		THEN 
 			SET age_info=1;
 		ELSE 
 			SET age_info=0;
     END IF;
     
-       IF (new.expertice <> null)
+       IF (new.expertice is not null  )
 		THEN 
 			SET exper_info=1;
 		ELSE 
 			SET exper_info=0;
     END IF;
     
+	SET new.score = 2 * (age_info+ sex_info + exper_info);
     
-    UPDATE filled_form
-    SET score = num_mark_quest + 2 * (age_info+ sex_info + exper_info)
-    WHERE id = new.id;
-
+    UPDATE usr 
+    SET daily_points = daily_points + 2 * (age_info+ sex_info + exper_info)
+    WHERE id = new.user_id;
+    
 END $$
 
 DELIMITER ;
+
+
+
+-- ------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER computeMarketingPoints
+AFTER INSERT ON answer
+FOR EACH ROW
+BEGIN
+   
+	UPDATE filled_form
+    SET score = score + 1
+    WHERE id = new.form_id;
+    
+    UPDATE usr
+    SET daily_points = daily_points + 1
+    WHERE id = (SELECT user_id FROM filled_form
+				WHERE id = new.form_id);
+    
+END $$
+
+DELIMITER ;
+
+
 
 -- ------------------------------------------------------------------------------------------------------------------------------
 
@@ -153,19 +180,23 @@ AFTER INSERT ON answer
 FOR EACH ROW
 BEGIN
 		DECLARE banned_user INT;
-        
-        
-		IF ( new.response IN ( SELECT word FROM offensive_word) )
+        DECLARE bannable INT;
+	   
+		IF EXISTS( SELECT *
+		FROM offensive_word 
+        WHERE (locate(word, new.response)) > 0
+        )
         THEN
-			SELECT  user_id INTO banned_user FROM filled_form 
-						 WHERE id = new.form_id;
-			UPDATE usr
+         	SELECT  user_id INTO banned_user FROM filled_form 
+			WHERE id = new.form_id;
+			
+            UPDATE usr
 			SET banned = 1
 			WHERE id = banned_user;
 			
             -- Deleting the Filled Form causes also the deletion of al the Answers that are linked to it because of the Cascading policy.
-			DELETE FROM filled_form
-            WHERE id = new.form_id;
+			-- DELETE FROM filled_form
+            -- WHERE id = new.form_id;
             
 		END IF;
 END $$
@@ -177,12 +208,28 @@ DELIMITER ;
 -- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
  
 drop trigger prevent_offensive_words  ;
+drop trigger computePoints ;
+
+
+CREATE EVENT reset_daily_score
+  ON SCHEDULE
+    EVERY 1 DAY
+    STARTS '2021-02-26 00:00:00' ON COMPLETION PRESERVE ENABLE 
+  DO
+    UPDATE usr
+    SET totalPoints = 0
+    WHERE id > 0;
 
 
 
 
 
-INSERT INTO usr (username, email, password, banned, totalPoints) VALUES ('ludorighi', 'ludo.righi@hotmail.it', 'a', 0, 0);
+INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('ludorighi', 'ludo.righi@hotmail.it', 'a', 0, 0);
+INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('matte', 'matte@hotmail.it', 'a', 0, 0);
+INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('ghera', 'lssss.it', 'a', 0, 0);
+INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('france', 'l.....hotmail.it', 'a', 0, 0);
+INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('tommi', 'lahahhai@hotmail.it', 'a', 0, 0);
+
 
 INSERT INTO product (prod_name, photoimage) VALUES ('Playstation 5',_binary'abc');
 

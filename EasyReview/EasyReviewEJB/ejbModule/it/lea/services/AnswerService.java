@@ -23,25 +23,21 @@ public class AnswerService {
 
 	}
 
-	public List<Answer> saveAnswers(List<String> answers, List<Question> questions, FilledForm form) {
+	
+	
+	public List<Answer> saveAnswers(List<String> answers, List<Question> questions) {
 
 		List<Answer> ans = new ArrayList<Answer>();
 		if (answers != null && questions != null) {
 
 			for (int i = 0; i < answers.size(); i++) {
-				ans.add(new Answer(answers.get(i), questions.get(i), form));
-				form.addAnswer(ans.get(i));
-				// responses.add(a);
+				ans.add(new Answer(answers.get(i), questions.get(i)));
 			}
-			/*
-			 * ans = new Answer(answer, question, form); question.addAnswer(ans);
-			 * form.addAnswer(ans);
-			 */
-			em.merge(form);
 		}
 
 		return ans;
 
 	}
+	
 
 }

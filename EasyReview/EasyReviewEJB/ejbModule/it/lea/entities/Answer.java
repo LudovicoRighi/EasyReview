@@ -47,6 +47,16 @@ public class Answer implements Serializable {
 		
 	}
 	
+
+	public Answer(String response, Question question) {
+		
+		this.response=response;
+		this.question=question;
+		
+		
+	}
+	
+	
 	
 
 	public Integer getId() {

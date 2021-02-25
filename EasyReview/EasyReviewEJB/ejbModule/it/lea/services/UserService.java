@@ -1,5 +1,6 @@
 package it.lea.services;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import it.lea.entities.FilledForm;
 import it.lea.entities.Log;
 // import it.lea.entities.Product;
 // import it.lea.entities.Questionnaire;
@@ -43,21 +45,30 @@ public class UserService {
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
-	
-	
-	
-	
-	public Boolean checkIfBanned(Integer userId )  {
-		 
-		User u = em.find( User.class, userId);
-		 
+
+	public Boolean checkIfBanned(Integer userId) {
+
+		User u = em.find(User.class, userId);
+
 		return u.getBanned();
-		
+
 	}
-	
-	
-	
-	
+
+	public Boolean hasDoneDailyQuestionnaire(Integer userId) throws Exception {
+
+		List<User> uList = null;
+		try {
+			uList = em.createNamedQuery("User.hasDoneDailyQuestionnaire", User.class).setParameter(1, userId)
+					.getResultList();
+		} catch (Exception e) {
+			throw new Exception("Error searching the user");
+		}
+		if (uList.isEmpty())
+			return false;
+		else
+			return true;
+
+	}
 
 	public Log saveLog(User user) {
 
@@ -87,7 +98,6 @@ public class UserService {
 		return user;
 	}
 
-	
 	public List<User> getLeaderboard() throws Exception {
 
 		List<User> userList = null;

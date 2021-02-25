@@ -2,6 +2,7 @@
 package it.lea.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
- 
 @Entity
 @Table(name = "filled_form", schema = "db_easyr")
 
@@ -32,7 +32,7 @@ public class FilledForm implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
+	@ManyToOne  
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -41,11 +41,17 @@ public class FilledForm implements Serializable {
 	private Questionnaire questionnaire;
 
 	@OneToMany(mappedBy = "form", cascade = { CascadeType.PERSIST })
-	private List<Answer> answers;
+	private List<Answer> answers = new ArrayList<Answer>();
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_form")
+	private Date date;
 
 	private Integer age;
 	private String sex;
 	private String expertice;
+
+	private Integer score;
 
 	public FilledForm() {
 
@@ -57,9 +63,22 @@ public class FilledForm implements Serializable {
 		this.user = user;
 		this.questionnaire = questionnaire;
 		this.answers = answers;
+		this.date = questionnaire.getDate();
 		this.age = age;
 		this.sex = sex;
 		this.expertice = expertice;
+		this.score = 0;
+	}
+
+	public FilledForm(User user, Questionnaire questionnaire, Integer age, String sex, String expertice) {
+		super();
+		this.user = user;
+		this.questionnaire = questionnaire;
+		this.date = questionnaire.getDate();
+		this.age = age;
+		this.sex = sex;
+		this.expertice = expertice;
+		this.score = 0;
 	}
 
 	public Integer getId() {
@@ -76,6 +95,18 @@ public class FilledForm implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	
+	
+	
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	/*

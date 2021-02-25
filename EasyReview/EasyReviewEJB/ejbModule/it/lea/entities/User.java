@@ -1,9 +1,11 @@
 package it.lea.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +19,8 @@ import javax.persistence.Table;
 @Table(name = "usr", schema = "db_easyr")
 @NamedQueries({
 		@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u  WHERE u.username = ?1 and u.password = ?2"),
-		@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u ORDER BY u.id DESC") })
+		@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u ORDER BY u.points DESC"),
+		@NamedQuery(name = "User.hasDoneDailyQuestionnaire", query = "SELECT u FROM User u, FilledForm f WHERE f.user = u AND f.date = CURRENT_DATE AND u.id = ?1")})
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,10 +33,12 @@ public class User implements Serializable {
 	private String email;
 	private String password;
 	private Boolean banned;
-	private Integer totalPoints;
+
+	@Column(name = "daily_points")
+	private Integer points;
 
 	@OneToMany(mappedBy = "user")
-	private List<FilledForm> forms;
+	private List<FilledForm> forms = new ArrayList<FilledForm>();
 
 	@OneToMany(mappedBy = "user")
 	private List<Log> logs;
@@ -48,7 +53,7 @@ public class User implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.banned = false;
-		this.totalPoints = 0;
+		this.points = 0;
 	}
 
 	public Integer getId() {
@@ -91,22 +96,28 @@ public class User implements Serializable {
 		this.banned = banned;
 	}
 
-	public Integer getTotalPoints() {
-		return totalPoints;
+	public Integer getPoints() {
+		return points;
 	}
 
-	public void setTotalPoints(Integer totalPoints) {
-		this.totalPoints = totalPoints;
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
-	/*
-	 * public List<FilledForm> getForms() { return forms; }
-	 * 
-	 * public void setForms(List<FilledForm> forms) { this.forms = forms; }
-	 * 
-	 * public List<Log> getLogs() { return logs; }
-	 * 
-	 * public void setLogs(List<Log> logs) { this.logs = logs; }
-	 */
+	public List<FilledForm> getForms() {
+		return forms;
+	}
+
+	public void setForms(List<FilledForm> forms) {
+		this.forms = forms;
+	}
+
+	public List<Log> getLogs() {
+		return logs;
+	}
+
+	public void setLogs(List<Log> logs) {
+		this.logs = logs;
+	}
 
 }
