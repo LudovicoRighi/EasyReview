@@ -27,6 +27,7 @@ import it.lea.entities.User;
 import it.lea.services.AnswerService;
 import it.lea.services.FilledFormService;
 import it.lea.services.QuestionnaireService;
+import it.lea.services.UserService;
 
 @WebServlet("/ThanksPage")
 public class GoToThanksPage extends HttpServlet {
@@ -38,6 +39,8 @@ public class GoToThanksPage extends HttpServlet {
 	private AnswerService answerService;
 	@EJB(name = "it.lea.services/FilledFormService")
 	private FilledFormService formService;
+	@EJB(name = "it.lea.services/UserService")
+	private UserService userService;
 
 	public GoToThanksPage() {
 		super();
@@ -72,18 +75,19 @@ public class GoToThanksPage extends HttpServlet {
 		String age = null;
 		String expertice = null;
 		FilledForm form = null;
+		Boolean banned = null;
 
 		try {
 
 			answers = (List<String>) session.getAttribute("answers");
 			responses = new ArrayList<Answer>();
-			user = (User) session.getAttribute("user");
+			user = (User) session.getAttribute("user");	
 			sex = StringEscapeUtils.escapeJava(request.getParameter("sex"));
 			age = StringEscapeUtils.escapeJava(request.getParameter("age"));
 			expertice = StringEscapeUtils.escapeJava(request.getParameter("expertice"));
 			questionnaire = questionnaireService.getQuestionnaireOfToday();
 			questions = questionnaire.getQuestions();
-			
+			banned= userService.checkIfBanned(user.getId());
 	 		
 
 			form = formService.saveFilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
@@ -99,7 +103,8 @@ public class GoToThanksPage extends HttpServlet {
 		String path = "/WEB-INF/ThanksPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
+		ctx.setVariable("banned", banned);
+		
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}

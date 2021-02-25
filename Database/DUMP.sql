@@ -98,7 +98,8 @@ create table answer (
 
 );
 
- 
+ -- ------------------------------------------------------------------------------------------------------------------------------
+
 
 DELIMITER $$
 
@@ -142,6 +143,40 @@ END $$
 
 DELIMITER ;
 
+-- ------------------------------------------------------------------------------------------------------------------------------
+
+
+DELIMITER $$
+
+CREATE TRIGGER prevent_offensive_words
+AFTER INSERT ON answer
+FOR EACH ROW
+BEGIN
+		DECLARE banned_user INT;
+        
+        
+		IF ( new.response IN ( SELECT word FROM offensive_word) )
+        THEN
+			SELECT  user_id INTO banned_user FROM filled_form 
+						 WHERE id = new.form_id;
+			UPDATE usr
+			SET banned = 1
+			WHERE id = banned_user;
+			
+            -- Deleting the Filled Form causes also the deletion of al the Answers that are linked to it because of the Cascading policy.
+			DELETE FROM filled_form
+            WHERE id = new.form_id;
+            
+		END IF;
+END $$
+
+DELIMITER ;
+
+-- ------------------------------------------------------------------------------------------------------------------------------
+ 
+-- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
+ 
+drop trigger prevent_offensive_words  ;
 
 
 
@@ -176,5 +211,8 @@ INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like it?'
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Where did you buy it?',2);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Did you try the product before buying it?',2);
 
-INSERT INTO admn (username, email, password) VALUES ('paolo', 'paolo@mail.com', 'a')
+INSERT INTO admn (username, email, password) VALUES ('paolo', 'paolo@mail.com', 'a');
 
+INSERT INTO offensive_word (word) VALUES ('cappero');
+INSERT INTO offensive_word (word) VALUES ('cavolo');
+INSERT INTO offensive_word (word) VALUES ('accipicchia');

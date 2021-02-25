@@ -6,7 +6,19 @@
 </head>
 <body>
 
-	<h1>This is the Thank You Page</h1>
+	<h1>This is the Submission Page</h1>
+
+
+	<div th:if="${banned == true}">
+		<span> You have been banned because of offensive words!!! </span>
+	</div>
+	<div th:if="${banned == false}">
+		<span> Thank you for your responses, your opinion is very important for us!!! </span>
+
+	</div>
+
+
+
 
 	<form action="Home" method="GET">
 		<input type="submit" name="HomePage" value="HomePage">

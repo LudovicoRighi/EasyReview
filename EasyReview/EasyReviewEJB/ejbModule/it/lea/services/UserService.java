@@ -43,6 +43,21 @@ public class UserService {
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
 	}
+	
+	
+	
+	
+	public Boolean checkIfBanned(Integer userId )  {
+		 
+		User u = em.find( User.class, userId);
+		 
+		return u.getBanned();
+		
+	}
+	
+	
+	
+	
 
 	public Log saveLog(User user) {
 
