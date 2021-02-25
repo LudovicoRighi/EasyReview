@@ -10,10 +10,24 @@
 
 
 	<form action="ThanksPage" method="POST">
-		Age: <input type="text" name="age" required> <br> 
-		Sex: <input	type="text" name="sex" required><br> 
-		Expertice: <input	type="text" name="expertice" required><br> 
-		<input type="submit" name="Submit" value="Submit">
+
+		<br> <br> 
+			Age: <input type="number" name="age" required>
+
+		<br> <br> 
+			Sex: <select name="sex" id="sex">
+			<option value="Male" selected>Male</option>
+			<option value="Female">Female</option>
+			<option value="Other">Other</option>
+		</select> 
+		
+		<br> <br> 
+			Expertice: <select name="expertice" id="expertice">
+			<option value="Low" selected>Low</option>
+			<option value="Medium">Medium</option>
+			<option value="High">High</option>
+		</select> <br> <br> <input type="submit" name="Submit" value="Submit">
+		
 	</form>
 
 

@@ -1,6 +1,7 @@
 package it.lea.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -31,7 +32,6 @@ public class GoToQuestionnairePage extends HttpServlet {
 	private QuestionnaireService questionnaireService;
 	@EJB(name = "it.lea.services/UserService")
 	private UserService userService;
-														
 
 	private TemplateEngine templateEngine;
 
@@ -61,14 +61,12 @@ public class GoToQuestionnairePage extends HttpServlet {
 		Questionnaire questionnaire = null;
 		List<Question> questions = null;
 		User user = (User) session.getAttribute("user");
-		
-		
+
 		try {
 
 			questionnaire = questionnaireService.getQuestionnaireOfToday();
 			questions = questionnaire.getQuestions();
 			Log log = userService.saveLog(user);
-			
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
@@ -78,7 +76,26 @@ public class GoToQuestionnairePage extends HttpServlet {
 		String path = "/WEB-INF/QuestionnairePage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
- 		ctx.setVariable("questions", questions);
+		ctx.setVariable("questions", questions);
+
+		/* PROVA */
+		ctx.setVariable("size", questions.size() - 1);
+
+		List<String> texts = new ArrayList<String>();
+
+		if (session.getAttribute("answers") != null) {
+
+			
+			texts = (List<String>) session.getAttribute("answers");
+
+		} else {
+			for (int i = 0; i < questions.size(); i++) {
+				texts.add(null);
+			}
+		}
+
+		ctx.setVariable("answers", texts);
+		/* PROVA */
 
 		templateEngine.process(path, ctx, response.getWriter());
 	}

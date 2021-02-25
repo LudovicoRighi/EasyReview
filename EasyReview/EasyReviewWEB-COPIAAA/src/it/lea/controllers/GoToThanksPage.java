@@ -20,6 +20,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.lea.entities.Answer;
+import it.lea.entities.FilledForm;
 import it.lea.entities.Question;
 import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
@@ -70,6 +71,7 @@ public class GoToThanksPage extends HttpServlet {
 		String sex = null;
 		String age = null;
 		String expertice = null;
+		FilledForm form = null;
 
 		try {
 
@@ -82,12 +84,12 @@ public class GoToThanksPage extends HttpServlet {
 			questionnaire = questionnaireService.getQuestionnaireOfToday();
 			questions = questionnaire.getQuestions();
 			
-			for (int i = 0; i < answers.size(); i++) {
-				Answer a = answerService.saveAnswer(answers.get(i), questions.get(i));
-				responses.add(a);
-			}
-			
-			formService.saveFilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
+	 		
+
+			form = formService.saveFilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
+			// form = new FilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
+
+			responses = answerService.saveAnswers(answers, questions, form);
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");

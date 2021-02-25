@@ -38,7 +38,7 @@ public class GoToHomePage extends HttpServlet {
 	}
 
 	public void init() throws ServletException {
- 
+
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -52,9 +52,15 @@ public class GoToHomePage extends HttpServlet {
 		// If the user is not logged in (not present in session) redirect to the login
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
- 		if (session.isNew() || session.getAttribute("user") == null) {
+		if (session.isNew() || session.getAttribute("user") == null) {
 			response.sendRedirect(loginpath);
 			return;
+		}
+
+		if (session.getAttribute("answers") != null) {
+
+			session.removeAttribute("answers");
+
 		}
 
 		User user = (User) session.getAttribute("user");
@@ -62,23 +68,22 @@ public class GoToHomePage extends HttpServlet {
 		List<Review> reviews = null;
 
 		try {
-			
+
 			product = productService.getProductOfToday();
 			reviews = product.getReviews();
-			
+
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 			return;
 		}
 
-		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/Home.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("product", product);
 		ctx.setVariable("reviews", reviews);
- 
+
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
@@ -89,6 +94,5 @@ public class GoToHomePage extends HttpServlet {
 
 	public void destroy() {
 	}
-	
 
 }
