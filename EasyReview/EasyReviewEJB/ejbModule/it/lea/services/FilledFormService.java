@@ -22,7 +22,7 @@ public class FilledFormService {
 		
 	}
 	
-	public void saveFilledForm(User user, Questionnaire questionnaire, List<Answer> answers, Integer age, String sex,
+	public FilledForm saveFilledForm(User user, Questionnaire questionnaire, List<Answer> answers, Integer age, String sex,
 			String expertice) {
 		 
 		FilledForm form= null;
@@ -34,6 +34,7 @@ public class FilledFormService {
 			a.setForm(form);
 		}
 		questionnaire.addFilledForm(form);
+		return form;
 
 		
 		

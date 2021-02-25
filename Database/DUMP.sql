@@ -73,7 +73,8 @@ create table filled_form (
     score INTEGER DEFAULT 0, 
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE,
-	FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id) ON DELETE CASCADE
+	FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id) ON DELETE CASCADE,
+	CONSTRAINT only_one_form UNIQUE(user_id, questionnaire_id)
 );
 
 
@@ -97,6 +98,49 @@ create table answer (
 
 );
 
+ 
+
+DELIMITER $$
+
+CREATE TRIGGER computePoints
+AFTER INSERT ON filled_form
+FOR EACH ROW
+BEGIN
+DECLARE num_mark_quest INT;
+DECLARE age_info, sex_info, exper_info INT;
+
+	SELECT COUNT(*) INTO num_mark_quest FROM question
+    WHERE questionnaire_id=new.questionnaire_id;
+	
+    IF (new.sex <> null)
+		THEN 
+			SET sex_info=1;
+		ELSE 
+			SET sex_info=0;
+    END IF;
+    
+     IF (new.age <> null)
+		THEN 
+			SET age_info=1;
+		ELSE 
+			SET age_info=0;
+    END IF;
+    
+       IF (new.expertice <> null)
+		THEN 
+			SET exper_info=1;
+		ELSE 
+			SET exper_info=0;
+    END IF;
+    
+    
+    UPDATE filled_form
+    SET score = num_mark_quest + 2 * (age_info+ sex_info + exper_info)
+    WHERE id = new.id;
+
+END $$
+
+DELIMITER ;
 
 
 
@@ -132,5 +176,5 @@ INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like it?'
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Where did you buy it?',2);
 INSERT INTO question (question_text, questionnaire_id) VALUES ('Did you try the product before buying it?',2);
 
-INSERT INTO admn (
+INSERT INTO admn (username, email, password) VALUES ('paolo', 'paolo@mail.com', 'a')
 

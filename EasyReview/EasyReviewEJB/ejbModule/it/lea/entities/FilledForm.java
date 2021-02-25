@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+ 
 @Entity
 @Table(name = "filled_form", schema = "db_easyr")
 
@@ -38,10 +40,8 @@ public class FilledForm implements Serializable {
 	@JoinColumn(name = "questionnaire_id")
 	private Questionnaire questionnaire;
 
-	@OneToMany(mappedBy= "form")
+	@OneToMany(mappedBy = "form", cascade = { CascadeType.PERSIST })
 	private List<Answer> answers;
-	
-
 
 	private Integer age;
 	private String sex;
@@ -50,9 +50,6 @@ public class FilledForm implements Serializable {
 	public FilledForm() {
 
 	}
-	
-	
-	
 
 	public FilledForm(User user, Questionnaire questionnaire, List<Answer> answers, Integer age, String sex,
 			String expertice) {
@@ -64,9 +61,6 @@ public class FilledForm implements Serializable {
 		this.sex = sex;
 		this.expertice = expertice;
 	}
-
-
-
 
 	public Integer getId() {
 		return id;
@@ -83,16 +77,20 @@ public class FilledForm implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	/*
 	 * public Questionnaire getQuestionnaire() { return questionnaire; }
 	 * 
 	 * public void setQuestionnaire(Questionnaire questionnaire) {
 	 * this.questionnaire = questionnaire; }
-	 * 
-	 * public List<Answer> getAnswers() { return answers; }
-	 * 
-	 * public void setAnswers(List<Answer> answers) { this.answers = answers; }
 	 */
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
 
 	public Integer getAge() {
 		return age;
@@ -116,6 +114,11 @@ public class FilledForm implements Serializable {
 
 	public void setExpertice(String expertice) {
 		this.expertice = expertice;
+	}
+
+	public void addAnswer(Answer answer) {
+		getAnswers().add(answer);
+		answer.setForm(this);
 	}
 
 }

@@ -32,10 +32,10 @@ public class User implements Serializable {
 	private Boolean banned;
 	private Integer totalPoints;
 
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "user")
 	private List<FilledForm> forms;
 
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "user")
 	private List<Log> logs;
 
 	public User() {

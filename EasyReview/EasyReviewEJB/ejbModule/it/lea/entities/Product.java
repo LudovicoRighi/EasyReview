@@ -26,10 +26,10 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToMany(mappedBy = "product", cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "product")
 	private List<Questionnaire> questionnaires;
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private List<Review> reviews;
 
 	@Basic(fetch = FetchType.EAGER)

@@ -39,14 +39,13 @@ public class Answer implements Serializable {
 	}
 	
 	
-	public Answer(String response, Question question) {
+	public Answer(String response, Question question, FilledForm form) {
+		
 		this.response=response;
 		this.question=question;
+		this.form=form;
 		
 	}
-	
-	
-	
 	
 	
 
