@@ -1,26 +1,53 @@
 package it.lea.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import it.lea.entities.Answer;
+import it.lea.entities.FilledForm;
+import it.lea.entities.Product;
+import it.lea.entities.Question;
+import it.lea.entities.Questionnaire;
+import it.lea.entities.User;
+import it.lea.services.ProductService;
+import it.lea.services.QuestionService;
+import it.lea.services.QuestionnaireService;
+import it.lea.services.UserService;
+import it.lea.utils.ImageUtils;
 
 @WebServlet("/CreateQuestionnaire")
 public class CreateQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "it.lea.services/ProductService")
+	private ProductService productService;
+	@EJB(name = "it.lea.services/QuestionnaireService")
+	private QuestionnaireService questionnaireService;
+	@EJB(name = "it.lea.services/QuestionService")
+	private QuestionService questionService;
 
 	public CreateQuestionnaire() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public void init() throws ServletException {
@@ -32,16 +59,90 @@ public class CreateQuestionnaire extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		
-		
-		
-		
-		
- 	}
+
+		// If the user is not logged in (not present in session) redirect to the login
+		HttpSession session = request.getSession();
+		if (session.isNew() || session.getAttribute("user") == null) {
+			String loginpath = getServletContext().getContextPath() + "/index.html";
+			response.sendRedirect(loginpath);
+			return;
+		}
+
+		String productName = null;
+		Date date = null;
+		Part imgFile = null;
+		byte[] imgByteArray = null;
+		Integer questionsNum = null;
+		List<Question> questions = null;
+		List<String> questionsText = new ArrayList<String>();
+
+		try {
+
+			productName = request.getParameter("product");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = (Date) sdf.parse(request.getParameter("date"));
+
+			/*
+			 * TO DO :IMAGE UPLOAD
+			 * --------------------------------------------------------------------------
+			 */
+
+			// imgFile = request.getPart("picture");
+			// System.out.println(" 11111111111 " + imgFile.getSize());
+			// InputStream imgContent = imgFile.getInputStream();
+			// System.out.println(" 222222222 " + imgContent.hashCode());
+			// imgByteArray = ImageUtils.readImage(imgContent);
+			// System.out.println(" " + imgByteArray.length);
+
+			questionsNum = (Integer) session.getAttribute("questionsNum");
+
+			for (int i = 0; i <= questionsNum; i++) {
+
+				questionsText.add(request.getParameter(Integer.toString(i)));
+
+			}
+
+			if (productName == null || date.before(new Date(System.currentTimeMillis()))
+					|| /*
+						 * imgByteArray.length == 0 ||
+						 */ questionsNum == null || questionsText == null) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+				return;
+			}
+
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			return;
+		}
+
+		// Create Product
+
+		Product product = null;
+
+		try {
+			product = productService.createProduct(imgByteArray, productName);
+			questions = questionService.saveQuestions(questionsText);
+
+			questionnaireService.saveQuestionnaire(date, product, questions);
+
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create product");
+			return;
+		}
+
+		/*
+		 * **************** TO DO: 1) confirmation message 2)pulire sessione (num
+		 * domande)
+		 *********************************/
+
+		String path = "/WEB-INF/CreationPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+
+		templateEngine.process(path, ctx, response.getWriter());
+
+	}
 
 }

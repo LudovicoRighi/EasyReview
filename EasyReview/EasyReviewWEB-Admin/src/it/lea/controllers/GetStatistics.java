@@ -1,6 +1,8 @@
 package it.lea.controllers;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,27 +16,28 @@ import javax.servlet.http.HttpSession;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+import org.thymeleaf.expression.Lists;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.lea.entities.Product;
-import it.lea.entities.Review;
-import it.lea.entities.User;
-import it.lea.services.ProductService;
+import it.lea.services.AnswerService;
+import it.lea.services.FilledFormService;
 import it.lea.services.UserService;
+import it.lea.entities.Answer;
+import it.lea.entities.FilledForm;
+import it.lea.entities.User;
 
-@WebServlet("/Home")
-public class GoToHomePage extends HttpServlet {
+@WebServlet("/GetStatistics")
+public class GetStatistics extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	@EJB(name = "it.lea.services/UserService")
 	private UserService userService;
-	@EJB(name = "it.lea.services/ProductService")
-	private ProductService productService;
+	@EJB(name = "it.lea.services/FilledFormService")
+	private FilledFormService formService;
 
-	public GoToHomePage() {
+	public GetStatistics() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public void init() throws ServletException {
@@ -49,6 +52,7 @@ public class GoToHomePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		// If the user is not logged in (not present in session) redirect to the login
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
@@ -57,47 +61,66 @@ public class GoToHomePage extends HttpServlet {
 			return;
 		}
 
-		if (session.getAttribute("answers") != null) {
-
-			session.removeAttribute("answers");
-
-		}
-
-		User user = (User) session.getAttribute("user");
-		Product product = null;
-		List<Review> reviews = null;
+		Date date = null;
 
 		try {
 
-			product = productService.getProductOfToday();
-			reviews = product.getReviews();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = (Date) sdf.parse(request.getParameter("date"));
+
+			if (date.compareTo(new Date(System.currentTimeMillis())) > 0) {
+
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Insert a past date");
+				return;
+			}
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 			return;
 		}
 
-		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/Home.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("product", product);
-		ctx.setVariable("reviews", reviews);
+		List<User> users = null;
+		List<User> logged = null;
+		List<FilledForm> forms = null;
 
-		String error = (String) session.getAttribute("errorMessage");
-		if (error != null) {
-			ctx.setVariable("errorMessage", error);
+		try {
+			users = userService.hasDoneQuestionnaireByDate(date);
+			logged = userService.hasOpenedQuestionnaireByDate(date);
+			forms = formService.retrieveByDate(date);
+			for (FilledForm f : forms) {
+				System.out.println("iiiiiiiiiiiiii   " + f.getUser().getUsername());
+			}
+
+			// Retrieve users that logged but then canceled the questionnaire
+			for (int i = 0; i < users.size(); i++) {
+				for (int k = 0; k < logged.size(); k++) {
+					if (logged.get(k).getId().equals(users.get(i).getId())) {
+
+						logged.remove(k);
+					}
+				}
+
+			}
+
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to retrieve users");
+			return;
 		}
 
+		String path = "/WEB-INF/InspectionPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		ctx.setVariable("users", users);
+		ctx.setVariable("canceled", logged);
+		ctx.setVariable("forms", forms);
+
 		templateEngine.process(path, ctx, response.getWriter());
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
-	}
-
-	public void destroy() {
 	}
 
 }

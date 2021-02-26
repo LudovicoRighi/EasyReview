@@ -23,7 +23,7 @@ import it.lea.entities.User;
 import it.lea.services.ProductService;
 import it.lea.services.UserService;
 
-@WebServlet("/DeletionPage")
+@WebServlet("/InspectionPage")
 public class GoToInspectionPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine; 
@@ -53,8 +53,8 @@ public class GoToInspectionPage extends HttpServlet {
 			return;
 		}
 
-		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/DeletionPage.html";
+	 
+		String path = "/WEB-INF/InspectionPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 

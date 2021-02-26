@@ -81,19 +81,27 @@ public class GoToThanksPage extends HttpServlet {
 
 			answers = (List<String>) session.getAttribute("answers");
 			responses = new ArrayList<Answer>();
-			user = (User) session.getAttribute("user");	
+			user = (User) session.getAttribute("user");
 			sex = StringEscapeUtils.escapeJava(request.getParameter("sex"));
+			if ("None".equals(sex)) {
+				sex = null;
+			}
+
 			age = StringEscapeUtils.escapeJava(request.getParameter("age"));
 			expertice = StringEscapeUtils.escapeJava(request.getParameter("expertice"));
+			if ("None".equals(expertice)) {
+				expertice = null;
+			}
+
 			questionnaire = questionnaireService.getQuestionnaireOfToday();
 			questions = questionnaire.getQuestions();
-			banned= userService.checkIfBanned(user.getId());
-	 		
+			banned = userService.checkIfBanned(user.getId());
+
+			responses = answerService.saveAnswers(answers, questions);
 
 			form = formService.saveFilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
-			// form = new FilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
-
-			responses = answerService.saveAnswers(answers, questions, form);
+			// form = new FilledForm(user, questionnaire, responses, Integer.valueOf(age),
+			// sex, expertice);
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
@@ -104,7 +112,7 @@ public class GoToThanksPage extends HttpServlet {
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("banned", banned);
-		
+
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}

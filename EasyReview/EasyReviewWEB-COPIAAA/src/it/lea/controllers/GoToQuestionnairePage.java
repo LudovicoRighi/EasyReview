@@ -58,46 +58,72 @@ public class GoToQuestionnairePage extends HttpServlet {
 			return;
 		}
 
-		Questionnaire questionnaire = null;
-		List<Question> questions = null;
 		User user = (User) session.getAttribute("user");
 
+		Boolean hasDoneQuestionnaire = null;
 		try {
-
-			questionnaire = questionnaireService.getQuestionnaireOfToday();
-			questions = questionnaire.getQuestions();
-			Log log = userService.saveLog(user);
-
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
-			return;
+			hasDoneQuestionnaire = userService.hasDoneDailyQuestionnaire(user.getId());
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 
-		String path = "/WEB-INF/QuestionnairePage.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("questions", questions);
+		if (user.getBanned() == true) {
 
-		/* PROVA */
-		ctx.setVariable("size", questions.size() - 1);
+			request.getSession().setAttribute("errorMessage",
+					"You have been banned, you cannot do other questionnaires!");
 
-		List<String> texts = new ArrayList<String>();
+			String path = getServletContext().getContextPath() + "/Home";
+			response.sendRedirect(path);
 
-		if (session.getAttribute("answers") != null) {
+		}
 
-			
-			texts = (List<String>) session.getAttribute("answers");
+		else if (hasDoneQuestionnaire == true) {
+			request.getSession().setAttribute("errorMessage",
+					"You have alredy completed the questionnaire of today, come back tomorrow!");
 
-		} else {
-			for (int i = 0; i < questions.size(); i++) {
-				texts.add(null);
+			String path = getServletContext().getContextPath() + "/Home";
+			response.sendRedirect(path);
+		}
+
+		else {
+
+			Questionnaire questionnaire = null;
+			List<Question> questions = null;
+
+			try {
+
+				questionnaire = questionnaireService.getQuestionnaireOfToday();
+				questions = questionnaire.getQuestions();
+				Log log = userService.saveLog(user);
+
+			} catch (Exception e) {
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+				return;
 			}
+
+			String path = "/WEB-INF/QuestionnairePage.html";
+			ServletContext servletContext = getServletContext();
+			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("questions", questions);
+
+			ctx.setVariable("size", questions.size() - 1);
+
+			List<String> texts = new ArrayList<String>();
+
+			if (session.getAttribute("answers") != null) {
+
+				texts = (List<String>) session.getAttribute("answers");
+
+			} else {
+				for (int i = 0; i < questions.size(); i++) {
+					texts.add(null);
+				}
+			}
+
+			ctx.setVariable("answers", texts);
+
+			templateEngine.process(path, ctx, response.getWriter());
 		}
-
-		ctx.setVariable("answers", texts);
-		/* PROVA */
-
-		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

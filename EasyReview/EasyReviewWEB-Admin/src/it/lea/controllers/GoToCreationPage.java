@@ -57,7 +57,8 @@ public class GoToCreationPage extends HttpServlet {
 		String path = "/WEB-INF/CreationPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
+		ctx.setVariable("questionsNum", 0);
+		
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
