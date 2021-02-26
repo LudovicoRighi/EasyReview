@@ -70,10 +70,13 @@ public class GoToHomePage extends HttpServlet {
 		try {
 
 			product = productService.getProductOfToday();
-			reviews = product.getReviews();
+
+			if (product != null) {
+				reviews = product.getReviews();
+			}
 
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+
 			return;
 		}
 

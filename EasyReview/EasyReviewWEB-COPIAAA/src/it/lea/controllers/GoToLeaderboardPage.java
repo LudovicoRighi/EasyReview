@@ -54,13 +54,15 @@ public class GoToLeaderboardPage extends HttpServlet {
 		}
 
 		List<User> userList = null;
+		User u = (User) session.getAttribute("user");
+
 		try {
-			userList = userService.getLeaderboard();
+
+			userList = userService.getLeaderboard(u.getId());
 
 		} catch (Exception e) {
 			System.out.println("errore leaderboardPage");
 		}
-
 		String path = "/WEB-INF/LeaderboardPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

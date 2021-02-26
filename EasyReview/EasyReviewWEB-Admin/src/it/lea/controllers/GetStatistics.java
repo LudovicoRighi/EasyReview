@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,17 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.expression.Lists;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import it.lea.services.AnswerService;
 import it.lea.services.FilledFormService;
 import it.lea.services.UserService;
-import it.lea.entities.Answer;
 import it.lea.entities.FilledForm;
 import it.lea.entities.User;
 
@@ -63,6 +57,10 @@ public class GetStatistics extends HttpServlet {
 
 		Date date = null;
 
+		String path = "/WEB-INF/InspectionPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+
 		try {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -70,12 +68,16 @@ public class GetStatistics extends HttpServlet {
 
 			if (date.compareTo(new Date(System.currentTimeMillis())) > 0) {
 
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Insert a past date");
+				ctx.setVariable("message", "Please, select a past or current date!");
+
+				templateEngine.process(path, ctx, response.getWriter());
 				return;
 			}
 
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			ctx.setVariable("message", "Please, insert a valid date!");
+
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 
@@ -87,9 +89,6 @@ public class GetStatistics extends HttpServlet {
 			users = userService.hasDoneQuestionnaireByDate(date);
 			logged = userService.hasOpenedQuestionnaireByDate(date);
 			forms = formService.retrieveByDate(date);
-			for (FilledForm f : forms) {
-				System.out.println("iiiiiiiiiiiiii   " + f.getUser().getUsername());
-			}
 
 			// Retrieve users that logged but then canceled the questionnaire
 			for (int i = 0; i < users.size(); i++) {
@@ -103,13 +102,12 @@ public class GetStatistics extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to retrieve users");
+			ctx.setVariable("message", "There is no questionnaire for the selected date!");
+
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 
-		String path = "/WEB-INF/InspectionPage.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("users", users);
 		ctx.setVariable("canceled", logged);
 		ctx.setVariable("forms", forms);

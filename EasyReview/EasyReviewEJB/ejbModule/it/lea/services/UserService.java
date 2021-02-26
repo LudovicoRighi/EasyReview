@@ -112,14 +112,16 @@ public class UserService {
 		return user;
 	}
 
-	public List<User> getLeaderboard() throws Exception {
+	public List<User> getLeaderboard(Integer userId) throws Exception {
 
 		List<User> userList = null;
+		User u = em.find(User.class, userId);
 		try {
+			em.refresh(u);
 			userList = em.createNamedQuery("User.getLeaderboard", User.class).getResultList();
 
 		} catch (Exception e) {
-			throw new Exception("Non ho trovato la leaderboard");
+			throw new Exception("Could not find the leaderboard");
 		}
 		return userList;
 	}
@@ -138,7 +140,5 @@ public class UserService {
 		return uList;
 
 	}
-
- 
 
 }
