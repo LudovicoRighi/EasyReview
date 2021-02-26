@@ -32,6 +32,7 @@ create table log(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     user_id INTEGER UNSIGNED,
 	ts timestamp NOT NULL,
+    date_log date NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE
 );

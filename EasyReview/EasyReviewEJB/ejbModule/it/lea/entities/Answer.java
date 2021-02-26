@@ -10,11 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "answer", schema = "db_easyr")
-public class Answer implements Serializable {
+ public class Answer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -55,9 +56,7 @@ public class Answer implements Serializable {
 		
 		
 	}
-	
-	
-	
+	 
 
 	public Integer getId() {
 		return id;

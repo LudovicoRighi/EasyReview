@@ -9,42 +9,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "log", schema = "db_easyr")
+@NamedQuery(name = "Log.hasOpenedQuestionnaireByDate", query = "SELECT l.user FROM Log l WHERE l.date = ?1")
 public class Log implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="ts")
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_log")
 	private Date date;
 
-	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "ts")
+	private Date timestamp;
+
 	public Log() {
-		
+
 	}
-	
-	
-	public Log(User user, Date date) {
+
+	public Log(User user, Date date, Date timestamp) {
 		super();
 		this.user = user;
 		this.date = date;
+		this.timestamp = timestamp;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -69,7 +71,5 @@ public class Log implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-
 
 }

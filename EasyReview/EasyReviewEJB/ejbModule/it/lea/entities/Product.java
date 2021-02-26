@@ -1,6 +1,7 @@
 package it.lea.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class Product implements Serializable {
 	private Integer id;
 
 	@OneToMany(mappedBy = "product")
-	private List<Questionnaire> questionnaires;
+	private List<Questionnaire> questionnaires = new ArrayList<Questionnaire>();
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private List<Review> reviews;
@@ -41,6 +42,12 @@ public class Product implements Serializable {
 
 	public Product() {
 
+	}
+
+	public Product(byte[] photoimage, String name) {
+		super();
+		this.photoimage = photoimage;
+		this.name = name;
 	}
 
 	public Integer getId() {

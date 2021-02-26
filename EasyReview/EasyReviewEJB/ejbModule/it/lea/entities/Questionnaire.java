@@ -3,6 +3,7 @@ package it.lea.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,18 +12,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
 @Table(name = "questionnaire", schema = "db_easyr")
-@NamedQuery(name = "Questionnaire.getQuestOfToday", query = "SELECT q FROM Questionnaire q WHERE q.date=CURRENT_DATE")
+
+@NamedQueries({
+		@NamedQuery(name = "Questionnaire.getQuestOfToday", query = "SELECT q FROM Questionnaire q WHERE q.date=CURRENT_DATE"),
+		@NamedQuery(name = "Questionnaire.getQuestByDate", query = "SELECT q FROM Questionnaire q WHERE q.date= ?1") })
+
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +36,7 @@ public class Questionnaire implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToMany(mappedBy = "questionnaire")
+	@OneToMany(mappedBy = "questionnaire", cascade= CascadeType.REMOVE)
 	private List<FilledForm> forms;
 
 	@Temporal(TemporalType.DATE)
@@ -41,11 +47,24 @@ public class Questionnaire implements Serializable {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER)
-	private List<Question> questions;
+	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+	private List<Question> questions = new ArrayList<Question>();
 
 	public Questionnaire() {
 
+	}
+
+	public Questionnaire(Date date, Product product, List<Question> questions) {
+		super();
+		this.date = date;
+		this.product = product;
+		this.questions = questions;
+	}
+
+	public Questionnaire(Date date, Product product) {
+		super();
+		this.date = date;
+		this.product = product;
 	}
 
 	public Integer getId() {
@@ -90,6 +109,11 @@ public class Questionnaire implements Serializable {
 
 	public void addFilledForm(FilledForm form) {
 		getForms().add(form);
+	}
+
+	public void addQuestion(Question question) {
+		getQuestions().add(question);
+		question.setQuestionnaire(this);
 	}
 
 }

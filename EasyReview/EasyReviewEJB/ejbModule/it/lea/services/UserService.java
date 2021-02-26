@@ -1,7 +1,7 @@
 package it.lea.services;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -70,13 +70,27 @@ public class UserService {
 
 	}
 
+	public List<User> hasDoneQuestionnaireByDate(Date date) throws Exception {
+
+		List<User> uList = null;
+		try {
+			uList = em.createNamedQuery("User.hasDoneQuestionnaireByDate", User.class).setParameter(1, date)
+					.getResultList();
+		} catch (Exception e) {
+			throw new Exception("Error searching the users");
+		}
+
+		return uList;
+
+	}
+
 	public Log saveLog(User user) {
 
 		Log log = null;
 
 		if (user != null) {
 
-			log = new Log(user, new Timestamp(System.currentTimeMillis()));
+			log = new Log(user, new Date((System.currentTimeMillis())), new Timestamp(System.currentTimeMillis()));
 			em.persist(log);
 
 		}
@@ -109,5 +123,22 @@ public class UserService {
 		}
 		return userList;
 	}
+
+	public List<User> hasOpenedQuestionnaireByDate(Date date) throws Exception {
+
+		List<User> uList = null;
+		try {
+			uList = em.createNamedQuery("Log.hasOpenedQuestionnaireByDate", User.class).setParameter(1, date)
+					.getResultList();
+
+		} catch (Exception e) {
+			throw new Exception("Error searching the users");
+		}
+
+		return uList;
+
+	}
+
+ 
 
 }

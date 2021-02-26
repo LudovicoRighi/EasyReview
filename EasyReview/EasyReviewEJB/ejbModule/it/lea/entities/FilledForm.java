@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +25,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "filled_form", schema = "db_easyr")
+@NamedQuery(name = "FilledForm.retrieveAnswersByDate", query = "SELECT f FROM FilledForm f  WHERE f.date = ?1")
 
 public class FilledForm implements Serializable {
 
@@ -32,7 +35,7 @@ public class FilledForm implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne  
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -40,7 +43,7 @@ public class FilledForm implements Serializable {
 	@JoinColumn(name = "questionnaire_id")
 	private Questionnaire questionnaire;
 
-	@OneToMany(mappedBy = "form", cascade = { CascadeType.PERSIST })
+	@OneToMany(mappedBy = "form", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	private List<Answer> answers = new ArrayList<Answer>();
 
 	@Temporal(TemporalType.DATE)
@@ -96,10 +99,6 @@ public class FilledForm implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
-	
-	
 
 	public Date getDate() {
 		return date;

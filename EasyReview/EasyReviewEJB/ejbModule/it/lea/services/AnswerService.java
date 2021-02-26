@@ -1,6 +1,7 @@
 package it.lea.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -23,8 +24,6 @@ public class AnswerService {
 
 	}
 
-	
-	
 	public List<Answer> saveAnswers(List<String> answers, List<Question> questions) {
 
 		List<Answer> ans = new ArrayList<Answer>();
@@ -38,6 +37,7 @@ public class AnswerService {
 		return ans;
 
 	}
+
 	
 
 }
