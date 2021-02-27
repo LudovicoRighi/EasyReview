@@ -151,10 +151,11 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE TRIGGER computeMarketingPoints
+CREATE TRIGGER compute_marketing_points
 AFTER INSERT ON answer
 FOR EACH ROW
 BEGIN
+
    
 	UPDATE filled_form
     SET score = score + 1
@@ -163,12 +164,12 @@ BEGIN
     UPDATE usr
     SET daily_points = daily_points + 1
     WHERE id = (SELECT user_id FROM filled_form
-				WHERE id = new.form_id);
+				WHERE id = new.form_id)
+	AND banned=0;
     
 END $$
 
 DELIMITER ;
-
 
 
 -- ------------------------------------------------------------------------------------------------------------------------------
@@ -194,6 +195,55 @@ BEGIN
             UPDATE usr
 			SET banned = 1
 			WHERE id = banned_user;
+            
+			UPDATE usr
+			SET daily_points=10
+			WHERE id = banned_user;          
+            
+            -- Deleting the Filled Form causes also the deletion of al the Answers that are linked to it because of the Cascading policy.
+			-- DELETE FROM filled_form
+            -- WHERE id = new.form_id;
+            
+		END IF;
+END $$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+-- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
+ 
+drop trigger prevent_offensive_words  ;
+drop trigger computePoints ;
+drop trigger computeMarketingPoints ;
+
+drop trigger  remove_scores__after_questionnaire_deletion;
+
+
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DELIMITER $$
+
+CREATE TRIGGER prevent_offensive_words
+BEFORE INSERT ON answer
+FOR EACH ROW
+BEGIN
+		DECLARE banned_user INT;
+        DECLARE bannable INT;
+	   
+		IF EXISTS( SELECT *
+		FROM offensive_word 
+        WHERE (locate(word, new.response)) > 0
+        )
+        THEN
+         	SELECT  user_id INTO banned_user FROM filled_form 
+			WHERE id = new.form_id;
+			
+            UPDATE usr
+			SET banned = 1
+			WHERE id = banned_user;
+            
+            -- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
 			
             -- Deleting the Filled Form causes also the deletion of al the Answers that are linked to it because of the Cascading policy.
 			-- DELETE FROM filled_form
@@ -204,14 +254,31 @@ END $$
 
 DELIMITER ;
 
--- ------------------------------------------------------------------------------------------------------------------------------
- 
--- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
- 
-drop trigger prevent_offensive_words  ;
-drop trigger computePoints ;
 
+ 
 
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+DELIMITER $$
+
+CREATE TRIGGER remove_scores__after_questionnaire_deletion
+AFTER DELETE ON questionnaire 
+FOR EACH ROW
+BEGIN
+
+		IF(old.date_questionnaire = CURRENT_DATE)
+        THEN 
+			UPDATE usr
+            SET daily_points = 0
+            WHERE id>0;
+        END IF;
+	 
+END $$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE EVENT reset_daily_score
   ON SCHEDULE
     EVERY 1 DAY
@@ -222,6 +289,7 @@ CREATE EVENT reset_daily_score
     WHERE id > 0;
 
 
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

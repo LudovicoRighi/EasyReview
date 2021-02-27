@@ -49,6 +49,7 @@ public class UserService {
 	public Boolean checkIfBanned(Integer userId) {
 
 		User u = em.find(User.class, userId);
+		em.refresh(u);
 
 		return u.getBanned();
 

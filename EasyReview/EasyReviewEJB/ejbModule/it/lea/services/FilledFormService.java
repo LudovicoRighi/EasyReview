@@ -1,5 +1,6 @@
 package it.lea.services;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class FilledFormService {
 	}
 
 	public FilledForm saveFilledForm(User user, Questionnaire questionnaire, List<Answer> answers, Integer age,
-			String sex, String expertice) {
+			String sex, String expertice) throws SQLException {
 
 		FilledForm form = null;
 		form = new FilledForm(user, questionnaire, age, sex, expertice);
@@ -37,7 +38,6 @@ public class FilledFormService {
 		questionnaire.addFilledForm(form);
 
 		user.getForms().add(form);
-
 		em.persist(form);
 
 		return form;
@@ -55,6 +55,21 @@ public class FilledFormService {
 		}
 
 		return forms;
+
+	}
+
+	public void deleteFilledForm(Integer formId) throws Exception {
+
+		try {
+			FilledForm form = em.find(FilledForm.class, formId);
+			System.out.println("ho fatto find");
+
+			em.remove(form);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new Exception("Error deleting the form");
+		}
 
 	}
 

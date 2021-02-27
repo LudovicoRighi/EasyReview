@@ -3,8 +3,6 @@ package it.lea.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "usr", schema = "db_easyr")
 @NamedQueries({
 		@NamedQuery(name = "User.checkCredentials", query = "SELECT u FROM User u  WHERE u.username = ?1 and u.password = ?2"),
-		@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u ORDER BY u.points DESC"),
+		@NamedQuery(name = "User.getLeaderboard", query = "SELECT u FROM User u WHERE u.points>0 ORDER BY u.points DESC"),
 		@NamedQuery(name = "User.hasDoneDailyQuestionnaire", query = "SELECT u FROM User u, FilledForm f WHERE f.user = u AND f.date = CURRENT_DATE AND u.id = ?1"),
 		@NamedQuery(name = "User.hasDoneQuestionnaireByDate", query = "SELECT u FROM User u, FilledForm f WHERE f.user = u AND f.date = ?1"),
 		@NamedQuery(name = "User.hasOpenedQuestionnaireByDate", query = "SELECT u FROM User u, Log l WHERE l.user = u ") })

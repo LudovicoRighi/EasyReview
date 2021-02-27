@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "log", schema = "db_easyr")
-@NamedQuery(name = "Log.hasOpenedQuestionnaireByDate", query = "SELECT l.user FROM Log l WHERE l.date = ?1")
+@NamedQuery(name = "Log.hasOpenedQuestionnaireByDate", query = "SELECT DISTINCT l.user FROM Log l WHERE l.date = ?1")
 public class Log implements Serializable {
 
 	private static final long serialVersionUID = 1L;

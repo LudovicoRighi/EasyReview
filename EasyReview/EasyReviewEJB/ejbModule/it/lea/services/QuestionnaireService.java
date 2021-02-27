@@ -33,7 +33,9 @@ public class QuestionnaireService {
 		return quest;
 	}
 
-	public Questionnaire saveQuestionnaire(Date date, Product product, List<Question> questions) {
+	public Questionnaire saveQuestionnaire(Date date, Product product, List<Question> questions) throws Exception {
+
+		System.out.println("entro in SaveQUestionnaire");
 
 		Questionnaire quest = null;
 		quest = new Questionnaire(date, product);
@@ -43,9 +45,17 @@ public class QuestionnaireService {
 			quest.addQuestion(q);
 		}
 
-		product.getQuestionnaires().add(quest);
+		// product.getQuestionnaires().add(quest);
 
-		em.persist(quest);
+		try {
+			em.persist(quest);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Error creating the questionnaire");
+		}
+
+		System.out.println("esco in SaveQUestionnaire");
 
 		return quest;
 
