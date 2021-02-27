@@ -78,12 +78,16 @@ public class CreateQuestionnaire extends HttpServlet {
 		List<Question> questions = null;
 		List<String> questionsText = new ArrayList<String>();
 
+		String path = "/WEB-INF/CreationPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+
 		try {
 
 			productName = request.getParameter("product");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+ 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = (Date) sdf.parse(request.getParameter("date"));
-
+ 
 			/*
 			 * TO DO :IMAGE UPLOAD
 			 * --------------------------------------------------------------------------
@@ -97,23 +101,31 @@ public class CreateQuestionnaire extends HttpServlet {
 			// System.out.println(" " + imgByteArray.length);
 
 			questionsNum = (Integer) session.getAttribute("questionsNum");
+			System.out.println("THE questionNUM IS " + questionsNum);
 
 			for (int i = 0; i <= questionsNum; i++) {
 
 				questionsText.add(request.getParameter(Integer.toString(i)));
-
+ 
 			}
 
-			if (productName == null || date.before(new Date(System.currentTimeMillis()))
+			System.out.println("la dataaaaaaaaaa " + date.compareTo(new Date(System.currentTimeMillis())));
+			System.out.println("la dataaaaaaaaaa di oggiiiiiii " + new Date(System.currentTimeMillis()));
+
+			if (productName == null || date.compareTo(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000)) < 0
 					|| /*
 						 * imgByteArray.length == 0 ||
 						 */ questionsNum == null || questionsText == null) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid questionnaire parameters");
+				ctx.setVariable("message", "Please select the current or a future date");
+
+				templateEngine.process(path, ctx, response.getWriter());
 				return;
 			}
 
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			ctx.setVariable("message", "Error in creating the questionnaire");
+
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 
@@ -128,6 +140,8 @@ public class CreateQuestionnaire extends HttpServlet {
 			questionnaireService.saveQuestionnaire(date, product, questions);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("ERRRRRRORRRREEEEE");
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create product");
 			return;
 		}
@@ -137,10 +151,7 @@ public class CreateQuestionnaire extends HttpServlet {
 		 * domande)
 		 *********************************/
 
-		String path = "/WEB-INF/CreationPage.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
+		ctx.setVariable("message", "The product and the questionnaire have been saved");
 		templateEngine.process(path, ctx, response.getWriter());
 
 	}

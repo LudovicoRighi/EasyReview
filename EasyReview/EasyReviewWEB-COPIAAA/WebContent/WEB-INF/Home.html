@@ -16,11 +16,11 @@
 	<p th:text="${'Nice to see you again ' + session.user.username }"></p>
 
 
-	<div th:if="${#lists.isEmpty(reviews)}">
+	<div th:if="${product == null}">
 		<span>There is no product of the day, come back tomorrow!</span>
 	</div>
 
-	<div th:if="${not #lists.isEmpty(reviews)}">
+	<div th:if="${product != null}">
 
 
 		<h2>The product of the day is</h2>

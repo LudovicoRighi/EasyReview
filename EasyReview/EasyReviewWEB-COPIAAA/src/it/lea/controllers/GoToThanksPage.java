@@ -76,6 +76,7 @@ public class GoToThanksPage extends HttpServlet {
 		String expertice = null;
 		FilledForm form = null;
 		Boolean banned = null;
+		Integer ageNum = null;
 
 		try {
 
@@ -83,11 +84,17 @@ public class GoToThanksPage extends HttpServlet {
 			responses = new ArrayList<Answer>();
 			user = (User) session.getAttribute("user");
 			sex = StringEscapeUtils.escapeJava(request.getParameter("sex"));
+
 			if ("None".equals(sex)) {
 				sex = null;
 			}
 
 			age = StringEscapeUtils.escapeJava(request.getParameter("age"));
+
+			if (!"None".equals(age)) {
+				ageNum = Integer.valueOf(age);
+			}
+
 			expertice = StringEscapeUtils.escapeJava(request.getParameter("expertice"));
 			if ("None".equals(expertice)) {
 				expertice = null;
@@ -95,15 +102,18 @@ public class GoToThanksPage extends HttpServlet {
 
 			questionnaire = questionnaireService.getQuestionnaireOfToday();
 			questions = questionnaire.getQuestions();
-			banned = userService.checkIfBanned(user.getId());
 
 			responses = answerService.saveAnswers(answers, questions);
 
-			form = formService.saveFilledForm(user, questionnaire, responses, Integer.valueOf(age), sex, expertice);
-			// form = new FilledForm(user, questionnaire, responses, Integer.valueOf(age),
-			// sex, expertice);
+			form = formService.saveFilledForm(user, questionnaire, responses, ageNum, sex, expertice);
+
+			banned = userService.checkIfBanned(user.getId());
+			if (banned == true) {
+				formService.deleteFilledForm(form.getId());
+			}
 
 		} catch (Exception e) {
+			System.out.println("SONO DENTRO AL CATCH ");
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
 			return;
 		}

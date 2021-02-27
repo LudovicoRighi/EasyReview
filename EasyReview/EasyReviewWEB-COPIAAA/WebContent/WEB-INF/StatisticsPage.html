@@ -12,20 +12,24 @@
 	<form action="ThanksPage" method="POST">
 
 		<br> <br> 
-			Age: <input type="number" name="age" >
+			Age: 
+			<select name="age" id="age">
+			<option value="None" selected>None</option>
+   	        <option th:each="i : ${#numbers.sequence(1, 100)}" th:value="${i}" th:text="${i}" ></option>
+            </select>
 
 		<br> <br> 
 			Sex: <select name="sex" id="sex">
-			<option value="None">None</option>
-			<option value="Male" selected>Male</option>
+			<option value="None" selected>None</option>
+			<option value="Male">Male</option>
 			<option value="Female">Female</option>
 			<option value="Other">Other</option>
 		</select> 
 		
 		<br> <br> 
 			Expertice: <select name="expertice" id="expertice">
-			<option value="None">None</option>
-			<option value="Low" selected>Low</option>
+			<option value="None"selected>None</option>
+			<option value="Low">Low</option>
 			<option value="Medium">Medium</option>
 			<option value="High">High</option>
 		</select> <br> <br> <input type="submit" name="Submit" value="Submit">

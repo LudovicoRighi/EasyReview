@@ -1,35 +1,20 @@
 package it.lea.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ejb.EJB;
-import javax.persistence.NonUniqueResultException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-/*import it.lea.entities.Answer;
-import it.lea.entities.Product;
-import it.lea.entities.Questionnaire;*/
-import it.lea.entities.User;
-import it.lea.exceptions.CredentialsException;
 import it.lea.exceptions.RegistrationException;
 import it.lea.services.UserService;
-import java.sql.Date;
-//import java.util.Date;
 
 @WebServlet("/UserRegistration")
 public class UserRegistration extends HttpServlet {
@@ -59,6 +44,11 @@ public class UserRegistration extends HttpServlet {
 		String pwd = null;
 		String confirm = null;
 		String email = null;
+		String path = null;
+
+		path = "/WEB-INF/RegistrationPage.html";
+		ServletContext servletContext = getServletContext();
+		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
 		try {
 			usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
@@ -73,40 +63,32 @@ public class UserRegistration extends HttpServlet {
 
 		} catch (RegistrationException e) {
 
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing field value");
+			ctx.setVariable("errorMsg", "Error in the registration process");
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
 
-		String path;
 		if (!pwd.equals(confirm)) {
 
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 			ctx.setVariable("errorMsg", "Passwords mismatch");
-			path = "/WEB-INF/RegistrationPage.html";
 			templateEngine.process(path, ctx, response.getWriter());
 
 		} else {
 
-			User user = null;
-
 			try {
 				// query db to authenticate for user
-				user = usrService.registerUser(usrn, email, pwd);
+				usrService.registerUser(usrn, email, pwd);
 
 			} catch (RegistrationException e) {
-				e.printStackTrace();
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Could not check credentials");
+				ctx.setVariable("errorMsg", "The username and/or email selected is not available");
+				templateEngine.process(path, ctx, response.getWriter());
 				return;
 			}
-
-			path = "/index.html";
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			ctx.setVariable("errorMsg", "The user has been successfully registered!");
 
 			templateEngine.process(path, ctx, response.getWriter());
 
-		}
+		}     
 
 	}
 

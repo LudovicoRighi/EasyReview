@@ -61,13 +61,15 @@ public class GoToQuestionnairePage extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 
 		Boolean hasDoneQuestionnaire = null;
+		Boolean isBanned = null;
 		try {
 			hasDoneQuestionnaire = userService.hasDoneDailyQuestionnaire(user.getId());
+			isBanned = userService.checkIfBanned(user.getId());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
-		if (user.getBanned() == true) {
+		if (isBanned == true) {
 
 			request.getSession().setAttribute("errorMessage",
 					"You have been banned, you cannot do other questionnaires!");

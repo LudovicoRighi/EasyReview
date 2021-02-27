@@ -6,6 +6,11 @@
 </head>
 <body>
 
+
+	<div align="right">
+		<a th:href="@{/Home}">Home</a>
+	</div>
+
 	<h1>This is the Registration Page</h1>
 
 
@@ -19,10 +24,6 @@
 		<p th:text=" ${errorMsg}"></p>
 	</form>
 
-
-	<form action="Home" method="GET">
-		<input type="submit" name="Home" value="Home">
-	</form>
 
 
 </body>
