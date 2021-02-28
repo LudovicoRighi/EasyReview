@@ -124,21 +124,16 @@ public class CreateQuestionnaire extends HttpServlet {
 			questionnaireService.saveQuestionnaire(date, product, questions);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to create product");
+			ctx.setVariable("message", "There is already a questionnaire for the selected date");
+
+			templateEngine.process(path, ctx, response.getWriter());
 			return;
 		}
-
-		/*
-		 * **************** TO DO: 1) confirmation message 2)pulire sessione (num
-		 * domande)
-		 *********************************/
 
 		ctx.setVariable("message", "The product and the questionnaire have been saved");
 		session.removeAttribute("questionsNum");
 		session.removeAttribute("product");
 		session.removeAttribute("date");
-
 
 		templateEngine.process(path, ctx, response.getWriter());
 
