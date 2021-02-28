@@ -1,6 +1,8 @@
 create schema db_easyr;
 use db_easyr;
 
+ -- TABLE CREATION -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 create table usr(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     username VARCHAR(20) UNIQUE NOT NULL,
@@ -11,7 +13,6 @@ create table usr(
     PRIMARY KEY (id)
 );
 
-
 create table admn(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     username VARCHAR(20) UNIQUE NOT NULL,
@@ -19,7 +20,6 @@ create table admn(
     password VARCHAR(45) NOT NULL,  
     PRIMARY KEY (id)
 );
-
 
 create table offensive_word(
 	id INTEGER UNSIGNED AUTO_INCREMENT,
@@ -37,14 +37,12 @@ create table log(
 	FOREIGN KEY (user_id) REFERENCES usr(id) ON DELETE CASCADE
 );
 
-
 create table product (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
     prod_name VARCHAR(30) NOT NULL,
 	photoimage longblob,
     PRIMARY KEY (id)
 );
-  
   
 create table review (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
@@ -62,7 +60,6 @@ create table questionnaire (
     PRIMARY KEY (id),
     FOREIGN KEY (product_id) REFERENCES product(id) ON DELETE CASCADE
 );
-
 
 create table filled_form (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
@@ -88,7 +85,6 @@ create table question (
   	FOREIGN KEY (questionnaire_id) REFERENCES questionnaire(id) ON DELETE CASCADE
 );
 
-
 create table answer (
 	id INTEGER UNSIGNED AUTO_INCREMENT,
 	question_id INTEGER UNSIGNED,
@@ -100,8 +96,7 @@ create table answer (
 
 );
 
- -- ------------------------------------------------------------------------------------------------------------------------------
-
+ -- TRIGGER CREATION ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 DELIMITER $$
 
@@ -142,12 +137,7 @@ END $$
 
 DELIMITER ;
 
-
-
--- ------------------------------------------------------------------------------------------------------------------------------
-
-
-
+-- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 DELIMITER $$
 
@@ -171,9 +161,7 @@ END $$
 
 DELIMITER ;
 
-
--- ------------------------------------------------------------------------------------------------------------------------------
-
+-- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 DELIMITER $$
 
@@ -208,26 +196,11 @@ BEGIN
 END $$
 
 DELIMITER ;
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  
--- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
- 
-drop trigger prevent_offensive_words  ;
-drop trigger computePoints ;
-drop trigger compute_marketing_points ;
-
-drop trigger  remove_scores__after_questionnaire_deletion;
-
-
--- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
  
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
- 
-DELIMITER $$
+ DELIMITER $$
 
 CREATE TRIGGER remove_scores__after_questionnaire_deletion
 AFTER DELETE ON questionnaire 
@@ -245,7 +218,8 @@ END $$
 
 DELIMITER ;
 
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 CREATE EVENT reset_daily_score
   ON SCHEDULE
     EVERY 1 DAY
@@ -255,9 +229,15 @@ CREATE EVENT reset_daily_score
     SET totalPoints = 0
     WHERE id > 0;
 
-
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- SIGNAL sqlstate '45001' set message_text = "No way ! You cannot do this !";
+ 
+drop trigger prevent_offensive_words  ;
+drop trigger compute_points ;
+drop trigger compute_marketing_points ;
+
+drop trigger  remove_scores__after_questionnaire_deletion;
 
 
 INSERT INTO usr (username, email, password, banned, daily_points) VALUES ('ludorighi', 'ludo.righi@hotmail.it', 'a', 0, 0);
@@ -273,30 +253,14 @@ INSERT INTO review (product_id, review_text) VALUES (1, 'Amazing product!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'Increadibile quality!!!!!');
 INSERT INTO review (product_id, review_text) VALUES (1, 'I recommend it to everyone!');
 
-INSERT INTO questionnaire (date_questionnaire, product_id) VALUES (date(now()) ,1);
-
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like the product?',1);
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you play FIFA21?',1);
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Have you ever used this product?',1);
-
-
+ 
 INSERT INTO product (prod_name, photoimage) VALUES ('XBox360',_binary'fgh');
 
 INSERT INTO review (product_id, review_text) VALUES (2, 'I love it!');
 INSERT INTO review (product_id, review_text) VALUES (2, 'I prefer Playstation honestly..');
 INSERT INTO review (product_id, review_text) VALUES (2, 'I cant stop playing!');
-INSERT INTO review (product_id, review_text) VALUES (2, 'Too expensive!');
-INSERT INTO review (product_id, review_text) VALUES (4, 'I love it!');
-INSERT INTO review (product_id, review_text) VALUES (4, 'I prefer Xbox honestly..');
-INSERT INTO review (product_id, review_text) VALUES (4, 'I cant stop playing!');
-INSERT INTO review (product_id, review_text) VALUES (4, 'Too expensive!');
+INSERT INTO review (product_id, review_text) VALUES (2, 'Too expensive!'); 
 
-
-INSERT INTO questionnaire (date_questionnaire, product_id) VALUES (date(now()) + 1,2);
-
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Do you like it?',2);
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Where did you buy it?',2);
-INSERT INTO question (question_text, questionnaire_id) VALUES ('Did you try the product before buying it?',2);
 
 INSERT INTO admn (username, email, password) VALUES ('paolo', 'paolo@mail.com', 'a');
 

@@ -24,9 +24,8 @@ public class QuestionService {
 		if (questions != null) {
 
 			for (int i = 0; i < questions.size(); i++) {
-				quest.add(new Question(questions.get(i)));
-				System.out.println("questions stampo domanda " + quest.get(i).getText());
 
+				quest.add(new Question(questions.get(i)));
 			}
 		}
 

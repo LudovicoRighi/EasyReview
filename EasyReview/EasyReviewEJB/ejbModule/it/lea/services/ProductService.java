@@ -35,11 +35,18 @@ public class ProductService {
 		}
 	}
 
-	public Product createProduct(byte[] photoimage, String name) {
+	public Product createProduct(byte[] photoimage, String name) throws Exception {
 
 		Product product = new Product(photoimage, name);
 
-		em.persist(product);
+		try {
+
+			em.persist(product);
+			
+		} catch (Exception e) {
+			
+			throw new Exception("Error creating the product");
+		}
 		return product;
 
 	}

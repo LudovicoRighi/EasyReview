@@ -5,13 +5,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import it.lea.entities.Answer;
-import it.lea.entities.FilledForm;
-import it.lea.entities.Product;
+ import it.lea.entities.Product;
 import it.lea.entities.Question;
 import it.lea.entities.Questionnaire;
-import it.lea.entities.User;
-
+ 
 // import it.lea.entities.Questionnaire;
 
 @Stateless
@@ -28,15 +25,14 @@ public class QuestionnaireService {
 		try {
 			quest = em.createNamedQuery("Questionnaire.getQuestOfToday", Questionnaire.class).getSingleResult();
 		} catch (Exception e) {
-			System.out.println("questionario non trovato");
+			System.out.println("Could not find the questionnaire");
 		}
 		return quest;
 	}
 
 	public Questionnaire saveQuestionnaire(Date date, Product product, List<Question> questions) throws Exception {
 
-		System.out.println("entro in SaveQUestionnaire");
-
+ 
 		Questionnaire quest = null;
 		quest = new Questionnaire(date, product);
 
@@ -51,12 +47,10 @@ public class QuestionnaireService {
 			em.persist(quest);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("Error creating the questionnaire");
+ 			throw new Exception("Error creating the questionnaire");
 		}
 
-		System.out.println("esco in SaveQUestionnaire");
-
+ 
 		return quest;
 
 	}
