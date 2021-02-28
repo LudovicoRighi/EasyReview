@@ -2,9 +2,7 @@ package it.lea.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,16 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
 import it.lea.entities.Question;
 import it.lea.entities.Questionnaire;
-import it.lea.entities.User;
 import it.lea.services.QuestionnaireService;
 
 @WebServlet("/StatisticsPage")
@@ -69,13 +63,12 @@ public class GoToStatisticsPage extends HttpServlet {
 			return;
 		}
 
- 		List<String> answers = new ArrayList<String>();
+		List<String> answers = new ArrayList<String>();
 		for (Question q : questions) {
 
-			answers.add(request.getParameter(Integer.toString(q.getId()))); 
+			answers.add(request.getParameter(Integer.toString(q.getId())));
 		}
 
- 
 		String path = "/WEB-INF/StatisticsPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());

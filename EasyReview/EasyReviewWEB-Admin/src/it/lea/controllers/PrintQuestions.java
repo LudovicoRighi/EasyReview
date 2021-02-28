@@ -1,26 +1,22 @@
 package it.lea.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.Part;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.lea.entities.Question;
-import it.lea.entities.Questionnaire;
-
 @WebServlet("/PrintQuestions")
+@MultipartConfig
 public class PrintQuestions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -51,13 +47,22 @@ public class PrintQuestions extends HttpServlet {
 
 		Integer questionsNum = null;
 		String productName = null;
+		Part imgFile = null;
+		String date = null;
+		String image = null;
 
 		try {
 
 			questionsNum = Integer.valueOf(request.getParameter("num"));
 			productName = request.getParameter("product");
+ 
+			date = request.getParameter("date");
+			image = request.getParameter("image");
+			imgFile = request.getPart("picture");
 
-			System.out.println("NOooooome: " + productName);
+ 			session.setAttribute("product", productName);
+			session.setAttribute("date", date);
+			// session.setAttribute("image", imgFile.getSubmittedFileName());
 
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
@@ -67,8 +72,8 @@ public class PrintQuestions extends HttpServlet {
 		String path = "/WEB-INF/CreationPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("questionsNum", questionsNum - 1);
-		request.getSession().setAttribute("questionsNum", questionsNum - 1);
+		ctx.setVariable("questionsNum", questionsNum );
+		request.getSession().setAttribute("questionsNum", questionsNum);
 		ctx.setVariable("product", productName);
 
 		templateEngine.process(path, ctx, response.getWriter());

@@ -3,7 +3,6 @@ package it.lea.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,13 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
-import it.lea.entities.Log;
 import it.lea.entities.Question;
 import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
@@ -96,7 +92,7 @@ public class GoToQuestionnairePage extends HttpServlet {
 
 				questionnaire = questionnaireService.getQuestionnaireOfToday();
 				questions = questionnaire.getQuestions();
-				Log log = userService.saveLog(user);
+				userService.saveLog(user);
 
 			} catch (Exception e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");

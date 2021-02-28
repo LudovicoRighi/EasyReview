@@ -3,24 +3,20 @@ package it.lea.controllers;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-
 import it.lea.entities.User;
 import it.lea.exceptions.CredentialsException;
 import it.lea.services.UserService;
-
 
 @WebServlet("/CheckLogin")
 public class CheckLogin extends HttpServlet {
@@ -61,7 +57,7 @@ public class CheckLogin extends HttpServlet {
 			return;
 		}
 		User user;
- 
+
 		try {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
@@ -83,7 +79,7 @@ public class CheckLogin extends HttpServlet {
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {
 			request.getSession().setAttribute("user", user);
- 
+
 			path = getServletContext().getContextPath() + "/Home";
 			response.sendRedirect(path);
 		}
