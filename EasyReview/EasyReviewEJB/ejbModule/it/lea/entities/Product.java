@@ -2,6 +2,7 @@ package it.lea.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -79,6 +80,10 @@ public class Product implements Serializable {
 
 	public void setPhotoimage(byte[] photoimage) {
 		this.photoimage = photoimage;
+	}
+
+	public String getPhotoimageData() {
+		return Base64.getMimeEncoder().encodeToString(photoimage);
 	}
 
 	public String getName() {

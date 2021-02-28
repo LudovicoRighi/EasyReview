@@ -23,7 +23,7 @@ public class GoToLeaderboardPage extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	/*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<User> userList = null;
@@ -36,6 +36,6 @@ public class GoToLeaderboardPage extends HttpServlet {
 			// System.out.println(u.getUsername() + "\t" + u.getPointOfToday());
 		}
 
-	}
+	}*/
 
 }
