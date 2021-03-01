@@ -22,8 +22,6 @@ import javax.persistence.Table;
 		@NamedQuery(name = "User.hasDoneQuestionnaireByDate", query = "SELECT u FROM User u, FilledForm f WHERE f.user = u AND f.date = ?1"),
 		@NamedQuery(name = "User.hasOpenedQuestionnaireByDate", query = "SELECT u FROM User u, Log l WHERE l.user = u ") })
 
-/* AND l.date = ?1  */
-
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

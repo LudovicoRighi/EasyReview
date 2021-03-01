@@ -108,12 +108,7 @@ public class FilledForm implements Serializable {
 		this.date = date;
 	}
 
-	/*
-	 * public Questionnaire getQuestionnaire() { return questionnaire; }
-	 * 
-	 * public void setQuestionnaire(Questionnaire questionnaire) {
-	 * this.questionnaire = questionnaire; }
-	 */
+ 
 	public List<Answer> getAnswers() {
 		return answers;
 	}

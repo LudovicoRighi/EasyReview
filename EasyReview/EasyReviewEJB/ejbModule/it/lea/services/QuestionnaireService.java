@@ -41,8 +41,6 @@ public class QuestionnaireService {
 			quest.addQuestion(q);
 		}
 
-		// product.getQuestionnaires().add(quest);
-
 		try {
 			em.persist(quest);
 

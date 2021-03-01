@@ -62,13 +62,11 @@ public class FilledFormService {
 
 		try {
 			FilledForm form = em.find(FilledForm.class, formId);
-			System.out.println("ho fatto find");
-
+ 
 			em.remove(form);
 		} catch (Exception e) {
 
-			e.printStackTrace();
-			throw new Exception("Error deleting the form");
+ 			throw new Exception("Error deleting the form");
 		}
 
 	}
