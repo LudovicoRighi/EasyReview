@@ -1,5 +1,14 @@
-# Databases2Project
+# Easy Review
 
+
+
+
+
+
+
+
+
+# Group Members
 Ludovico Righi
 Arslan Ali
 Enrico Gherardi
