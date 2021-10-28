@@ -1,5 +1,5 @@
 # EasyReview
-EasyReview is an easy-to-use web application whose main goal is 
+EasyReview is an easy-to-use web application whose main goal is to make reviews about products.
 
 # Database Schema
 In the following picture it is represented the design of the database schema.
