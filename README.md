@@ -18,7 +18,7 @@ The following features were implemented:
 The application was realized with the following technologies:
  - MySQL as DBMS; 
  - TomEE JEE Application/Web Server; 
- - Java Servlet and templating (JSP, JSTL or Thymeleaf) for the user interface;
+ - Java Servlet and templating (JSP, JSTL or Thymeleaf) for the very simple User Interface;
  - Stateless and Statefull EJBs for the business objects;
  - JPA for Object Relational Mapping and Transaction Management;
 
