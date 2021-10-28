@@ -2,6 +2,7 @@
 EasyReview is an easy-to-use web application whose main goal is 
 
 # Database Schema
+In the following picture it is represented the design of the database schema.
 
 <p align="center">
   <img width="80%" src="https://user-images.githubusercontent.com/52406034/139223245-c828592a-cab1-4c43-a015-73e29b97d38d.png">
