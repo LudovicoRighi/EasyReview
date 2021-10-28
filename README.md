@@ -9,9 +9,19 @@ In the following picture it is represented the design of the database schema.
 </p>
 
 # Features and Functionalities
-The following features were implemented:
- - Possibility ....
+The following features were implemented for the User:
+ - Make reviews about "Product of the Day"
+ - Fill in a Questionnarie composed of marketing questions and data about the user;
+ - Show user leaderboard based on how much they are active on the application;
+ - 
 
+
+
+The following features were implemented for the Admin:
+ - Creation of a new Product with the corresponding Questionnaire;
+ - Automatically ban users that included offensive words within their reviews;
+ - Mantain users' logs;
+ - 
 
 
 # Frameworks & Tools 
