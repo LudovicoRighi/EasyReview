@@ -256,10 +256,10 @@ INSERT INTO review (product_id, review_text) VALUES (1, 'I recommend it to every
  
 INSERT INTO product (prod_name, photoimage) VALUES ('XBox360',_binary'fgh');
 
-INSERT INTO review (product_id, review_text) VALUES (2, 'I love it!');
-INSERT INTO review (product_id, review_text) VALUES (2, 'I prefer Playstation honestly..');
-INSERT INTO review (product_id, review_text) VALUES (2, 'I cant stop playing!');
-INSERT INTO review (product_id, review_text) VALUES (2, 'Too expensive!'); 
+INSERT INTO review (product_id, review_text) VALUES (14, 'I love it!');
+INSERT INTO review (product_id, review_text) VALUES (14, 'I prefer Playstation honestly..');
+INSERT INTO review (product_id, review_text) VALUES (14, 'I cant stop playing!');
+INSERT INTO review (product_id, review_text) VALUES (14, 'Too expensive!'); 
 
 
 INSERT INTO admn (username, email, password) VALUES ('paolo', 'paolo@mail.com', 'a');

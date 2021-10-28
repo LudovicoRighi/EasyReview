@@ -26,10 +26,6 @@ BEGIN
 			SET daily_points=0
 			WHERE id = banned_user;          
             
-            -- Deleting the Filled Form causes also the deletion of al the Answers that are linked to it because of the Cascading policy.
-			-- DELETE FROM filled_form
-            -- WHERE id = new.form_id;
-            
 		END IF;
 END $$
 
@@ -105,9 +101,7 @@ DECLARE age_info, sex_info, exper_info, num_questions INT;
     JOIN QUESTION H 
     ON Q.id = H.questionnaire_id
     WHERE Q.date_questionnaire=CURRENT_DATE;
-    
-    
-    
+ 
 	SET new.score = 2 * (age_info+ sex_info + exper_info) + num_questions;
     
     UPDATE usr 

@@ -13,8 +13,6 @@ import it.lea.entities.FilledForm;
 import it.lea.entities.Questionnaire;
 import it.lea.entities.User;
 
-// import it.lea.entities.Questionnaire;
-
 @Stateless
 public class FilledFormService {
 	@PersistenceContext(unitName = "EasyReviewEJB")
