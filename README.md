@@ -1,10 +1,6 @@
 # EasyReview
 Customers Line-Up is an easy-to-use web application whose main goal is....
 
-<p align="center">
-  <img width="50%" src="https://github.com/LudovicoRighi/RighiGherardi/blob/main/ATD/Images/MockupLogo/LogoEnorme.png">
-</p>
-
 # Documents
 We wrote three different documents in order to keep track of all the important information and modifications that were needed during the software developement:
  - RASD (Requirement Analysis and Specification Document)
